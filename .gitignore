@@ -15,6 +15,8 @@ config/deploy.properties
 /service/config/staging.yml
 /service/config/testing.yml
 /service/config/deploy.properties
+/service/config/local-test.yml
+/service/config/local-secrets-bundle.yml
 /service/dependency-reduced-pom.xml
 .opsmanage
 put.sh
