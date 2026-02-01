@@ -251,6 +251,21 @@ public class VerificationController {
         clock.millis(),
         registrationServiceSession.expiration());
 
+    if (isStubRegistrationService()) {
+      verificationSession = new VerificationSession(null,
+          maybeCarrierData.orElse(null),
+          Collections.emptyList(),
+          Collections.emptyList(),
+          null,
+          null,
+          true,
+          verificationSession.createdTimestamp(),
+          clock.millis(),
+          verificationSession.remoteExpirationSeconds());
+      storeVerificationSession(registrationServiceSession, verificationSession);
+      return buildResponse(registrationServiceSession, verificationSession);
+    }
+
     verificationSession = handlePushToken(pushTokenAndType, verificationSession);
     // unconditionally request a captcha -- it will either be the only requested information, or a fallback
     // if a push challenge sent in `handlePushToken` doesn't arrive in time
@@ -295,6 +310,21 @@ public class VerificationController {
 
     final RegistrationServiceSession registrationServiceSession = retrieveRegistrationServiceSession(encodedSessionId);
     VerificationSession verificationSession = retrieveVerificationSession(registrationServiceSession);
+
+    if (isStubRegistrationService()) {
+      verificationSession = new VerificationSession(verificationSession.pushChallenge(),
+          verificationSession.carrierData(),
+          Collections.emptyList(),
+          verificationSession.submittedInformation(),
+          verificationSession.smsSenderOverride(),
+          verificationSession.voiceSenderOverride(),
+          true,
+          verificationSession.createdTimestamp(),
+          clock.millis(),
+          verificationSession.remoteExpirationSeconds());
+      updateStoredVerificationSession(registrationServiceSession, verificationSession);
+      return buildResponse(registrationServiceSession, verificationSession);
+    }
 
     final VerificationCheck verificationCheck = registrationFraudChecker.checkVerificationAttempt(
         requestContext,
@@ -912,6 +942,10 @@ public class VerificationController {
         registrationServiceSession.nextVoiceCall(), registrationServiceSession.nextVerificationAttempt(),
         verificationSession.allowedToRequestCode(), verificationSession.requestedInformation(),
         registrationServiceSession.verified());
+  }
+
+  private boolean isStubRegistrationService() {
+    return registrationServiceClient.getClass().getName().contains("StubRegistrationServiceClientFactory");
   }
 
   public static byte[] decodeSessionId(final String sessionId) {
