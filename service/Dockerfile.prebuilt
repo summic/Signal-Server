@@ -2,4 +2,4 @@ FROM eclipse-temurin:24-jre
 
 WORKDIR /app
 COPY Signal-Server/service/target/TextSecureServer-*.jar /app/app.jar
-COPY deploy/config/production /app/config/production
+COPY tooling/deploy/config/production /app/config/production
