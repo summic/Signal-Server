@@ -360,23 +360,2231 @@ badges:
   receiptLevels:
     '1': TEST
 
-subscription: # configuration for Stripe subscriptions
+subscription:
   badgeExpiration: P30D
   badgeGracePeriod: P15D
   backupExpiration: P30D
   backupGracePeriod: P15D
-  backupFreeTierMediaDuration: P30D
-  levels:
-    500:
-      badge: EXAMPLE
+  backupFreeTierMediaDuration: P45D
+  backupLevels:
+    201:
+      playProductId: backup
+      mediaTtl: P30D
       prices:
-        # list of ISO 4217 currency codes and amounts for the given badge level
-        xts:
+        aed:
+          amount: '20'
+          processorIds:
+            STRIPE: price_201_aed
+        afn:
+          amount: '300'
+          processorIds:
+            STRIPE: price_201_afn
+        all:
+          amount: '500'
+          processorIds:
+            STRIPE: price_201_all
+        amd:
+          amount: '1500'
+          processorIds:
+            STRIPE: price_201_amd
+        ang:
           amount: '10'
           processorIds:
-            STRIPE: price_example   # stripe Price ID
-            BRAINTREE: plan_example # braintree Plan ID
-
+            STRIPE: price_201_ang
+        aoa:
+          amount: '1500'
+          processorIds:
+            STRIPE: price_201_aoa
+        ars:
+          amount: '600'
+          processorIds:
+            STRIPE: price_201_ars
+        aud:
+          amount: '8'
+          processorIds:
+            STRIPE: price_201_aud
+            BRAINTREE: plan_201_aud
+        awg:
+          amount: '10'
+          processorIds:
+            STRIPE: price_201_awg
+        azn:
+          amount: '7'
+          processorIds:
+            STRIPE: price_201_azn
+        bam:
+          amount: '8'
+          processorIds:
+            STRIPE: price_201_bam
+        bbd:
+          amount: '10'
+          processorIds:
+            STRIPE: price_201_bbd
+        bdt:
+          amount: '400'
+          processorIds:
+            STRIPE: price_201_bdt
+        bgn:
+          amount: '8'
+          processorIds:
+            STRIPE: price_201_bgn
+        bif:
+          amount: '8000'
+          processorIds:
+            STRIPE: price_201_bif
+        bmd:
+          amount: '5'
+          processorIds:
+            STRIPE: price_201_bmd
+        bnd:
+          amount: '7'
+          processorIds:
+            STRIPE: price_201_bnd
+        bob:
+          amount: '30'
+          processorIds:
+            STRIPE: price_201_bob
+        brl:
+          amount: '20'
+          processorIds:
+            STRIPE: price_201_brl
+            BRAINTREE: plan_201_brl
+        bsd:
+          amount: '5'
+          processorIds:
+            STRIPE: price_201_bsd
+        bwp:
+          amount: '50'
+          processorIds:
+            STRIPE: price_201_bwp
+        bzd:
+          amount: '8'
+          processorIds:
+            STRIPE: price_201_bzd
+        cad:
+          amount: '7'
+          processorIds:
+            STRIPE: price_201_cad
+            BRAINTREE: plan_201_cad
+        cdf:
+          amount: '8000'
+          processorIds:
+            STRIPE: price_201_cdf
+        chf:
+          amount: '5'
+          processorIds:
+            STRIPE: price_201_chf
+            BRAINTREE: plan_201_chf
+        clp:
+          amount: '4000'
+          processorIds:
+            STRIPE: price_201_clp
+        cny:
+          amount: '30'
+          processorIds:
+            STRIPE: price_201_cny
+        cop:
+          amount: '20000'
+          processorIds:
+            STRIPE: price_201_cop
+        crc:
+          amount: '3000'
+          processorIds:
+            STRIPE: price_201_crc
+        cve:
+          amount: '400'
+          processorIds:
+            STRIPE: price_201_cve
+        czk:
+          amount: '100'
+          processorIds:
+            STRIPE: price_201_czk
+            BRAINTREE: plan_201_czk
+        djf:
+          amount: '700'
+          processorIds:
+            STRIPE: price_201_djf
+        dkk:
+          amount: '40'
+          processorIds:
+            STRIPE: price_201_dkk
+            BRAINTREE: plan_201_dkk
+        dop:
+          amount: '250'
+          processorIds:
+            STRIPE: price_201_dop
+        dzd:
+          amount: '500'
+          processorIds:
+            STRIPE: price_201_dzd
+        egp:
+          amount: '75'
+          processorIds:
+            STRIPE: price_201_egp
+        etb:
+          amount: '200'
+          processorIds:
+            STRIPE: price_201_etb
+        eur:
+          amount: '5'
+          processorIds:
+            STRIPE: price_201_eur
+            BRAINTREE: plan_201_eur
+        fjd:
+          amount: '10'
+          processorIds:
+            STRIPE: price_201_fjd
+        fkp:
+          amount: '5'
+          processorIds:
+            STRIPE: price_201_fkp
+        gbp:
+          amount: '5'
+          processorIds:
+            STRIPE: price_201_gbp
+            BRAINTREE: plan_201_gbp
+        gel:
+          amount: '10'
+          processorIds:
+            STRIPE: price_201_gel
+        gip:
+          amount: '5'
+          processorIds:
+            STRIPE: price_201_gip
+        gmd:
+          amount: '200'
+          processorIds:
+            STRIPE: price_201_gmd
+        gnf:
+          amount: '30000'
+          processorIds:
+            STRIPE: price_201_gnf
+        gtq:
+          amount: '30'
+          processorIds:
+            STRIPE: price_201_gtq
+        gyd:
+          amount: '800'
+          processorIds:
+            STRIPE: price_201_gyd
+        hkd:
+          amount: '30'
+          processorIds:
+            STRIPE: price_201_hkd
+            BRAINTREE: plan_201_hkd
+        hnl:
+          amount: '100'
+          processorIds:
+            STRIPE: price_201_hnl
+        htg:
+          amount: '500'
+          processorIds:
+            STRIPE: price_201_htg
+        huf:
+          amount: '2000'
+          processorIds:
+            STRIPE: price_201_huf
+            BRAINTREE: plan_201_huf
+        idr:
+          amount: '60000'
+          processorIds:
+            STRIPE: price_201_idr
+        ils:
+          amount: '20'
+          processorIds:
+            STRIPE: price_201_ils
+            BRAINTREE: plan_201_ils
+        inr:
+          amount: '300'
+          processorIds:
+            STRIPE: price_201_inr
+        isk:
+          amount: '750'
+          processorIds:
+            STRIPE: price_201_isk
+        jmd:
+          amount: '600'
+          processorIds:
+            STRIPE: price_201_jmd
+        jpy:
+          amount: '500'
+          processorIds:
+            STRIPE: price_201_jpy
+            BRAINTREE: plan_201_jpy
+        kes:
+          amount: '500'
+          processorIds:
+            STRIPE: price_201_kes
+        kgs:
+          amount: '300'
+          processorIds:
+            STRIPE: price_201_kgs
+        khr:
+          amount: '15000'
+          processorIds:
+            STRIPE: price_201_khr
+        kmf:
+          amount: '2000'
+          processorIds:
+            STRIPE: price_201_kmf
+        krw:
+          amount: '5000'
+          processorIds:
+            STRIPE: price_201_krw
+        kyd:
+          amount: '5'
+          processorIds:
+            STRIPE: price_201_kyd
+        kzt:
+          amount: '2000'
+          processorIds:
+            STRIPE: price_201_kzt
+        lak:
+          amount: '50000'
+          processorIds:
+            STRIPE: price_201_lak
+        lbp:
+          amount: '6000'
+          processorIds:
+            STRIPE: price_201_lbp
+        lkr:
+          amount: '1500'
+          processorIds:
+            STRIPE: price_201_lkr
+        lrd:
+          amount: '600'
+          processorIds:
+            STRIPE: price_201_lrd
+        lsl:
+          amount: '70'
+          processorIds:
+            STRIPE: price_201_lsl
+        mad:
+          amount: '40'
+          processorIds:
+            STRIPE: price_201_mad
+        mdl:
+          amount: '80'
+          processorIds:
+            STRIPE: price_201_mdl
+        mga:
+          amount: '15000'
+          processorIds:
+            STRIPE: price_201_mga
+        mkd:
+          amount: '250'
+          processorIds:
+            STRIPE: price_201_mkd
+        mmk:
+          amount: '8000'
+          processorIds:
+            STRIPE: price_201_mmk
+        mnt:
+          amount: '12500'
+          processorIds:
+            STRIPE: price_201_mnt
+        mop:
+          amount: '40'
+          processorIds:
+            STRIPE: price_201_mop
+        mur:
+          amount: '200'
+          processorIds:
+            STRIPE: price_201_mur
+        mvr:
+          amount: '75'
+          processorIds:
+            STRIPE: price_201_mvr
+        mwk:
+          amount: '4000'
+          processorIds:
+            STRIPE: price_201_mwk
+        mxn:
+          amount: '80'
+          processorIds:
+            STRIPE: price_201_mxn
+            BRAINTREE: plan_201_mxn
+        myr:
+          amount: '20'
+          processorIds:
+            STRIPE: price_201_myr
+        mzn:
+          amount: '250'
+          processorIds:
+            STRIPE: price_201_mzn
+        nad:
+          amount: '75'
+          processorIds:
+            STRIPE: price_201_nad
+        ngn:
+          amount: '1500'
+          processorIds:
+            STRIPE: price_201_ngn
+        nio:
+          amount: '150'
+          processorIds:
+            STRIPE: price_201_nio
+        nok:
+          amount: '50'
+          processorIds:
+            STRIPE: price_201_nok
+            BRAINTREE: plan_201_nok
+        npr:
+          amount: '500'
+          processorIds:
+            STRIPE: price_201_npr
+        nzd:
+          amount: '10'
+          processorIds:
+            STRIPE: price_201_nzd
+            BRAINTREE: plan_201_nzd
+        pab:
+          amount: '5'
+          processorIds:
+            STRIPE: price_201_pab
+        pen:
+          amount: '15'
+          processorIds:
+            STRIPE: price_201_pen
+        pgk:
+          amount: '15'
+          processorIds:
+            STRIPE: price_201_pgk
+        php:
+          amount: '250'
+          processorIds:
+            STRIPE: price_201_php
+            BRAINTREE: plan_201_php
+        pkr:
+          amount: '800'
+          processorIds:
+            STRIPE: price_201_pkr
+        pln:
+          amount: '20'
+          processorIds:
+            STRIPE: price_201_pln
+            BRAINTREE: plan_201_pln
+        pyg:
+          amount: '30000'
+          processorIds:
+            STRIPE: price_201_pyg
+        qar:
+          amount: '20'
+          processorIds:
+            STRIPE: price_201_qar
+        ron:
+          amount: '20'
+          processorIds:
+            STRIPE: price_201_ron
+        rsd:
+          amount: '500'
+          processorIds:
+            STRIPE: price_201_rsd
+        rub:
+          amount: '300'
+          processorIds:
+            STRIPE: price_201_rub
+            BRAINTREE: plan_201_rub
+        rwf:
+          amount: '4000'
+          processorIds:
+            STRIPE: price_201_rwf
+        sar:
+          amount: '20'
+          processorIds:
+            STRIPE: price_201_sar
+        sbd:
+          amount: '30'
+          processorIds:
+            STRIPE: price_201_sbd
+        scr:
+          amount: '60'
+          processorIds:
+            STRIPE: price_201_scr
+        sek:
+          amount: '50'
+          processorIds:
+            STRIPE: price_201_sek
+            BRAINTREE: plan_201_sek
+        sgd:
+          amount: '7'
+          processorIds:
+            STRIPE: price_201_sgd
+            BRAINTREE: plan_201_sgd
+        shp:
+          amount: '4'
+          processorIds:
+            STRIPE: price_201_shp
+        sos:
+          amount: '2000'
+          processorIds:
+            STRIPE: price_201_sos
+        srd:
+          amount: '100'
+          processorIds:
+            STRIPE: price_201_srd
+        std:
+          amount: '100'
+          processorIds:
+            STRIPE: price_201_std
+        szl:
+          amount: '75'
+          processorIds:
+            STRIPE: price_201_szl
+        thb:
+          amount: '150'
+          processorIds:
+            STRIPE: price_201_thb
+            BRAINTREE: plan_201_thb
+        tjs:
+          amount: '40'
+          processorIds:
+            STRIPE: price_201_tjs
+        top:
+          amount: '10'
+          processorIds:
+            STRIPE: price_201_top
+        try:
+          amount: '75'
+          processorIds:
+            STRIPE: price_201_try
+        ttd:
+          amount: '30'
+          processorIds:
+            STRIPE: price_201_ttd
+        twd:
+          amount: '150'
+          processorIds:
+            STRIPE: price_201_twd
+            BRAINTREE: plan_201_twd
+        tzs:
+          amount: '8000'
+          processorIds:
+            STRIPE: price_201_tzs
+        uah:
+          amount: '120'
+          processorIds:
+            STRIPE: price_201_uah
+        ugx:
+          amount: '15000'
+          processorIds:
+            STRIPE: price_201_ugx
+        usd:
+          amount: '5'
+          processorIds:
+            STRIPE: price_201_usd
+            BRAINTREE: plan_201_usd
+        uyu:
+          amount: '200'
+          processorIds:
+            STRIPE: price_201_uyu
+        uzs:
+          amount: '40000'
+          processorIds:
+            STRIPE: price_201_uzs
+        vnd:
+          amount: '100000'
+          processorIds:
+            STRIPE: price_201_vnd
+        vuv:
+          amount: '500'
+          processorIds:
+            STRIPE: price_201_vuv
+        wst:
+          amount: '10'
+          processorIds:
+            STRIPE: price_201_wst
+        xaf:
+          amount: '2500'
+          processorIds:
+            STRIPE: price_201_xaf
+        xcd:
+          amount: '12'
+          processorIds:
+            STRIPE: price_201_xcd
+        xof:
+          amount: '2500'
+          processorIds:
+            STRIPE: price_201_xof
+        xpf:
+          amount: '500'
+          processorIds:
+            STRIPE: price_201_xpf
+        yer:
+          amount: '1000'
+          processorIds:
+            STRIPE: price_201_yer
+        zar:
+          amount: '75'
+          processorIds:
+            STRIPE: price_201_zar
+        zmw:
+          amount: '60'
+          processorIds:
+            STRIPE: price_201_zmw
+  levels:
+    500:
+      badge: R_LOW
+      prices:
+        aed:
+          amount: '20'
+          processorIds:
+            STRIPE: price_500_aed
+        afn:
+          amount: '300'
+          processorIds:
+            STRIPE: price_500_afn
+        all:
+          amount: '500'
+          processorIds:
+            STRIPE: price_500_all
+        amd:
+          amount: '1500'
+          processorIds:
+            STRIPE: price_500_amd
+        ang:
+          amount: '10'
+          processorIds:
+            STRIPE: price_500_ang
+        aoa:
+          amount: '1500'
+          processorIds:
+            STRIPE: price_500_aoa
+        ars:
+          amount: '600'
+          processorIds:
+            STRIPE: price_500_ars
+        aud:
+          amount: '8'
+          processorIds:
+            STRIPE: price_500_aud
+            BRAINTREE: plan_500_aud
+        awg:
+          amount: '10'
+          processorIds:
+            STRIPE: price_500_awg
+        azn:
+          amount: '7'
+          processorIds:
+            STRIPE: price_500_azn
+        bam:
+          amount: '8'
+          processorIds:
+            STRIPE: price_500_bam
+        bbd:
+          amount: '10'
+          processorIds:
+            STRIPE: price_500_bbd
+        bdt:
+          amount: '400'
+          processorIds:
+            STRIPE: price_500_bdt
+        bgn:
+          amount: '8'
+          processorIds:
+            STRIPE: price_500_bgn
+        bif:
+          amount: '8000'
+          processorIds:
+            STRIPE: price_500_bif
+        bmd:
+          amount: '5'
+          processorIds:
+            STRIPE: price_500_bmd
+        bnd:
+          amount: '7'
+          processorIds:
+            STRIPE: price_500_bnd
+        bob:
+          amount: '30'
+          processorIds:
+            STRIPE: price_500_bob
+        brl:
+          amount: '20'
+          processorIds:
+            STRIPE: price_500_brl
+            BRAINTREE: plan_500_brl
+        bsd:
+          amount: '5'
+          processorIds:
+            STRIPE: price_500_bsd
+        bwp:
+          amount: '50'
+          processorIds:
+            STRIPE: price_500_bwp
+        bzd:
+          amount: '8'
+          processorIds:
+            STRIPE: price_500_bzd
+        cad:
+          amount: '7'
+          processorIds:
+            STRIPE: price_500_cad
+            BRAINTREE: plan_500_cad
+        cdf:
+          amount: '8000'
+          processorIds:
+            STRIPE: price_500_cdf
+        chf:
+          amount: '5'
+          processorIds:
+            STRIPE: price_500_chf
+            BRAINTREE: plan_500_chf
+        clp:
+          amount: '4000'
+          processorIds:
+            STRIPE: price_500_clp
+        cny:
+          amount: '30'
+          processorIds:
+            STRIPE: price_500_cny
+        cop:
+          amount: '20000'
+          processorIds:
+            STRIPE: price_500_cop
+        crc:
+          amount: '3000'
+          processorIds:
+            STRIPE: price_500_crc
+        cve:
+          amount: '400'
+          processorIds:
+            STRIPE: price_500_cve
+        czk:
+          amount: '100'
+          processorIds:
+            STRIPE: price_500_czk
+            BRAINTREE: plan_500_czk
+        djf:
+          amount: '700'
+          processorIds:
+            STRIPE: price_500_djf
+        dkk:
+          amount: '40'
+          processorIds:
+            STRIPE: price_500_dkk
+            BRAINTREE: plan_500_dkk
+        dop:
+          amount: '250'
+          processorIds:
+            STRIPE: price_500_dop
+        dzd:
+          amount: '500'
+          processorIds:
+            STRIPE: price_500_dzd
+        egp:
+          amount: '75'
+          processorIds:
+            STRIPE: price_500_egp
+        etb:
+          amount: '200'
+          processorIds:
+            STRIPE: price_500_etb
+        eur:
+          amount: '5'
+          processorIds:
+            STRIPE: price_500_eur
+            BRAINTREE: plan_500_eur
+        fjd:
+          amount: '10'
+          processorIds:
+            STRIPE: price_500_fjd
+        fkp:
+          amount: '5'
+          processorIds:
+            STRIPE: price_500_fkp
+        gbp:
+          amount: '5'
+          processorIds:
+            STRIPE: price_500_gbp
+            BRAINTREE: plan_500_gbp
+        gel:
+          amount: '10'
+          processorIds:
+            STRIPE: price_500_gel
+        gip:
+          amount: '5'
+          processorIds:
+            STRIPE: price_500_gip
+        gmd:
+          amount: '200'
+          processorIds:
+            STRIPE: price_500_gmd
+        gnf:
+          amount: '30000'
+          processorIds:
+            STRIPE: price_500_gnf
+        gtq:
+          amount: '30'
+          processorIds:
+            STRIPE: price_500_gtq
+        gyd:
+          amount: '800'
+          processorIds:
+            STRIPE: price_500_gyd
+        hkd:
+          amount: '30'
+          processorIds:
+            STRIPE: price_500_hkd
+            BRAINTREE: plan_500_hkd
+        hnl:
+          amount: '100'
+          processorIds:
+            STRIPE: price_500_hnl
+        htg:
+          amount: '500'
+          processorIds:
+            STRIPE: price_500_htg
+        huf:
+          amount: '2000'
+          processorIds:
+            STRIPE: price_500_huf
+            BRAINTREE: plan_500_huf
+        idr:
+          amount: '60000'
+          processorIds:
+            STRIPE: price_500_idr
+        ils:
+          amount: '20'
+          processorIds:
+            STRIPE: price_500_ils
+            BRAINTREE: plan_500_ils
+        inr:
+          amount: '300'
+          processorIds:
+            STRIPE: price_500_inr
+        isk:
+          amount: '750'
+          processorIds:
+            STRIPE: price_500_isk
+        jmd:
+          amount: '600'
+          processorIds:
+            STRIPE: price_500_jmd
+        jpy:
+          amount: '500'
+          processorIds:
+            STRIPE: price_500_jpy
+            BRAINTREE: plan_500_jpy
+        kes:
+          amount: '500'
+          processorIds:
+            STRIPE: price_500_kes
+        kgs:
+          amount: '300'
+          processorIds:
+            STRIPE: price_500_kgs
+        khr:
+          amount: '15000'
+          processorIds:
+            STRIPE: price_500_khr
+        kmf:
+          amount: '2000'
+          processorIds:
+            STRIPE: price_500_kmf
+        krw:
+          amount: '5000'
+          processorIds:
+            STRIPE: price_500_krw
+        kyd:
+          amount: '5'
+          processorIds:
+            STRIPE: price_500_kyd
+        kzt:
+          amount: '2000'
+          processorIds:
+            STRIPE: price_500_kzt
+        lak:
+          amount: '50000'
+          processorIds:
+            STRIPE: price_500_lak
+        lbp:
+          amount: '6000'
+          processorIds:
+            STRIPE: price_500_lbp
+        lkr:
+          amount: '1500'
+          processorIds:
+            STRIPE: price_500_lkr
+        lrd:
+          amount: '600'
+          processorIds:
+            STRIPE: price_500_lrd
+        lsl:
+          amount: '70'
+          processorIds:
+            STRIPE: price_500_lsl
+        mad:
+          amount: '40'
+          processorIds:
+            STRIPE: price_500_mad
+        mdl:
+          amount: '80'
+          processorIds:
+            STRIPE: price_500_mdl
+        mga:
+          amount: '15000'
+          processorIds:
+            STRIPE: price_500_mga
+        mkd:
+          amount: '250'
+          processorIds:
+            STRIPE: price_500_mkd
+        mmk:
+          amount: '8000'
+          processorIds:
+            STRIPE: price_500_mmk
+        mnt:
+          amount: '12500'
+          processorIds:
+            STRIPE: price_500_mnt
+        mop:
+          amount: '40'
+          processorIds:
+            STRIPE: price_500_mop
+        mur:
+          amount: '200'
+          processorIds:
+            STRIPE: price_500_mur
+        mvr:
+          amount: '75'
+          processorIds:
+            STRIPE: price_500_mvr
+        mwk:
+          amount: '4000'
+          processorIds:
+            STRIPE: price_500_mwk
+        mxn:
+          amount: '80'
+          processorIds:
+            STRIPE: price_500_mxn
+            BRAINTREE: plan_500_mxn
+        myr:
+          amount: '20'
+          processorIds:
+            STRIPE: price_500_myr
+        mzn:
+          amount: '250'
+          processorIds:
+            STRIPE: price_500_mzn
+        nad:
+          amount: '75'
+          processorIds:
+            STRIPE: price_500_nad
+        ngn:
+          amount: '1500'
+          processorIds:
+            STRIPE: price_500_ngn
+        nio:
+          amount: '150'
+          processorIds:
+            STRIPE: price_500_nio
+        nok:
+          amount: '50'
+          processorIds:
+            STRIPE: price_500_nok
+            BRAINTREE: plan_500_nok
+        npr:
+          amount: '500'
+          processorIds:
+            STRIPE: price_500_npr
+        nzd:
+          amount: '10'
+          processorIds:
+            STRIPE: price_500_nzd
+            BRAINTREE: plan_500_nzd
+        pab:
+          amount: '5'
+          processorIds:
+            STRIPE: price_500_pab
+        pen:
+          amount: '15'
+          processorIds:
+            STRIPE: price_500_pen
+        pgk:
+          amount: '15'
+          processorIds:
+            STRIPE: price_500_pgk
+        php:
+          amount: '250'
+          processorIds:
+            STRIPE: price_500_php
+            BRAINTREE: plan_500_php
+        pkr:
+          amount: '800'
+          processorIds:
+            STRIPE: price_500_pkr
+        pln:
+          amount: '20'
+          processorIds:
+            STRIPE: price_500_pln
+            BRAINTREE: plan_500_pln
+        pyg:
+          amount: '30000'
+          processorIds:
+            STRIPE: price_500_pyg
+        qar:
+          amount: '20'
+          processorIds:
+            STRIPE: price_500_qar
+        ron:
+          amount: '20'
+          processorIds:
+            STRIPE: price_500_ron
+        rsd:
+          amount: '500'
+          processorIds:
+            STRIPE: price_500_rsd
+        rub:
+          amount: '300'
+          processorIds:
+            STRIPE: price_500_rub
+            BRAINTREE: plan_500_rub
+        rwf:
+          amount: '4000'
+          processorIds:
+            STRIPE: price_500_rwf
+        sar:
+          amount: '20'
+          processorIds:
+            STRIPE: price_500_sar
+        sbd:
+          amount: '30'
+          processorIds:
+            STRIPE: price_500_sbd
+        scr:
+          amount: '60'
+          processorIds:
+            STRIPE: price_500_scr
+        sek:
+          amount: '50'
+          processorIds:
+            STRIPE: price_500_sek
+            BRAINTREE: plan_500_sek
+        sgd:
+          amount: '7'
+          processorIds:
+            STRIPE: price_500_sgd
+            BRAINTREE: plan_500_sgd
+        shp:
+          amount: '4'
+          processorIds:
+            STRIPE: price_500_shp
+        sos:
+          amount: '2000'
+          processorIds:
+            STRIPE: price_500_sos
+        srd:
+          amount: '100'
+          processorIds:
+            STRIPE: price_500_srd
+        std:
+          amount: '100'
+          processorIds:
+            STRIPE: price_500_std
+        szl:
+          amount: '75'
+          processorIds:
+            STRIPE: price_500_szl
+        thb:
+          amount: '150'
+          processorIds:
+            STRIPE: price_500_thb
+            BRAINTREE: plan_500_thb
+        tjs:
+          amount: '40'
+          processorIds:
+            STRIPE: price_500_tjs
+        top:
+          amount: '10'
+          processorIds:
+            STRIPE: price_500_top
+        try:
+          amount: '75'
+          processorIds:
+            STRIPE: price_500_try
+        ttd:
+          amount: '30'
+          processorIds:
+            STRIPE: price_500_ttd
+        twd:
+          amount: '150'
+          processorIds:
+            STRIPE: price_500_twd
+            BRAINTREE: plan_500_twd
+        tzs:
+          amount: '8000'
+          processorIds:
+            STRIPE: price_500_tzs
+        uah:
+          amount: '120'
+          processorIds:
+            STRIPE: price_500_uah
+        ugx:
+          amount: '15000'
+          processorIds:
+            STRIPE: price_500_ugx
+        usd:
+          amount: '5'
+          processorIds:
+            STRIPE: price_500_usd
+            BRAINTREE: plan_500_usd
+        uyu:
+          amount: '200'
+          processorIds:
+            STRIPE: price_500_uyu
+        uzs:
+          amount: '40000'
+          processorIds:
+            STRIPE: price_500_uzs
+        vnd:
+          amount: '100000'
+          processorIds:
+            STRIPE: price_500_vnd
+        vuv:
+          amount: '500'
+          processorIds:
+            STRIPE: price_500_vuv
+        wst:
+          amount: '10'
+          processorIds:
+            STRIPE: price_500_wst
+        xaf:
+          amount: '2500'
+          processorIds:
+            STRIPE: price_500_xaf
+        xcd:
+          amount: '12'
+          processorIds:
+            STRIPE: price_500_xcd
+        xof:
+          amount: '2500'
+          processorIds:
+            STRIPE: price_500_xof
+        xpf:
+          amount: '500'
+          processorIds:
+            STRIPE: price_500_xpf
+        yer:
+          amount: '1000'
+          processorIds:
+            STRIPE: price_500_yer
+        zar:
+          amount: '75'
+          processorIds:
+            STRIPE: price_500_zar
+        zmw:
+          amount: '60'
+          processorIds:
+            STRIPE: price_500_zmw
+    1000:
+      badge: R_MED
+      prices:
+        aed:
+          amount: '40'
+          processorIds:
+            STRIPE: price_1000_aed
+        afn:
+          amount: '900'
+          processorIds:
+            STRIPE: price_1000_afn
+        all:
+          amount: '1000'
+          processorIds:
+            STRIPE: price_1000_all
+        amd:
+          amount: '5000'
+          processorIds:
+            STRIPE: price_1000_amd
+        ang:
+          amount: '20'
+          processorIds:
+            STRIPE: price_1000_ang
+        aoa:
+          amount: '4000'
+          processorIds:
+            STRIPE: price_1000_aoa
+        ars:
+          amount: '1000'
+          processorIds:
+            STRIPE: price_1000_ars
+        aud:
+          amount: '15'
+          processorIds:
+            STRIPE: price_1000_aud
+            BRAINTREE: plan_1000_aud
+        awg:
+          amount: '20'
+          processorIds:
+            STRIPE: price_1000_awg
+        azn:
+          amount: '15'
+          processorIds:
+            STRIPE: price_1000_azn
+        bam:
+          amount: '15'
+          processorIds:
+            STRIPE: price_1000_bam
+        bbd:
+          amount: '20'
+          processorIds:
+            STRIPE: price_1000_bbd
+        bdt:
+          amount: '1000'
+          processorIds:
+            STRIPE: price_1000_bdt
+        bgn:
+          amount: '15'
+          processorIds:
+            STRIPE: price_1000_bgn
+        bif:
+          amount: '20000'
+          processorIds:
+            STRIPE: price_1000_bif
+        bmd:
+          amount: '10'
+          processorIds:
+            STRIPE: price_1000_bmd
+        bnd:
+          amount: '15'
+          processorIds:
+            STRIPE: price_1000_bnd
+        bob:
+          amount: '60'
+          processorIds:
+            STRIPE: price_1000_bob
+        brl:
+          amount: '50'
+          processorIds:
+            STRIPE: price_1000_brl
+            BRAINTREE: plan_1000_brl
+        bsd:
+          amount: '10'
+          processorIds:
+            STRIPE: price_1000_bsd
+        bwp:
+          amount: '100'
+          processorIds:
+            STRIPE: price_1000_bwp
+        bzd:
+          amount: '20'
+          processorIds:
+            STRIPE: price_1000_bzd
+        cad:
+          amount: '15'
+          processorIds:
+            STRIPE: price_1000_cad
+            BRAINTREE: plan_1000_cad
+        cdf:
+          amount: '20000'
+          processorIds:
+            STRIPE: price_1000_cdf
+        chf:
+          amount: '10'
+          processorIds:
+            STRIPE: price_1000_chf
+            BRAINTREE: plan_1000_chf
+        clp:
+          amount: '8000'
+          processorIds:
+            STRIPE: price_1000_clp
+        cny:
+          amount: '60'
+          processorIds:
+            STRIPE: price_1000_cny
+        cop:
+          amount: '40000'
+          processorIds:
+            STRIPE: price_1000_cop
+        crc:
+          amount: '6000'
+          processorIds:
+            STRIPE: price_1000_crc
+        cve:
+          amount: '1000'
+          processorIds:
+            STRIPE: price_1000_cve
+        czk:
+          amount: '250'
+          processorIds:
+            STRIPE: price_1000_czk
+            BRAINTREE: plan_1000_czk
+        djf:
+          amount: '1500'
+          processorIds:
+            STRIPE: price_1000_djf
+        dkk:
+          amount: '75'
+          processorIds:
+            STRIPE: price_1000_dkk
+            BRAINTREE: plan_1000_dkk
+        dop:
+          amount: '500'
+          processorIds:
+            STRIPE: price_1000_dop
+        dzd:
+          amount: '1250'
+          processorIds:
+            STRIPE: price_1000_dzd
+        egp:
+          amount: '150'
+          processorIds:
+            STRIPE: price_1000_egp
+        etb:
+          amount: '400'
+          processorIds:
+            STRIPE: price_1000_etb
+        eur:
+          amount: '10'
+          processorIds:
+            STRIPE: price_1000_eur
+            BRAINTREE: plan_1000_eur
+        fjd:
+          amount: '20'
+          processorIds:
+            STRIPE: price_1000_fjd
+        fkp:
+          amount: '10'
+          processorIds:
+            STRIPE: price_1000_fkp
+        gbp:
+          amount: '10'
+          processorIds:
+            STRIPE: price_1000_gbp
+            BRAINTREE: plan_1000_gbp
+        gel:
+          amount: '30'
+          processorIds:
+            STRIPE: price_1000_gel
+        gip:
+          amount: '10'
+          processorIds:
+            STRIPE: price_1000_gip
+        gmd:
+          amount: '500'
+          processorIds:
+            STRIPE: price_1000_gmd
+        gnf:
+          amount: '100000'
+          processorIds:
+            STRIPE: price_1000_gnf
+        gtq:
+          amount: '75'
+          processorIds:
+            STRIPE: price_1000_gtq
+        gyd:
+          amount: '2000'
+          processorIds:
+            STRIPE: price_1000_gyd
+        hkd:
+          amount: '75'
+          processorIds:
+            STRIPE: price_1000_hkd
+            BRAINTREE: plan_1000_hkd
+        hnl:
+          amount: '250'
+          processorIds:
+            STRIPE: price_1000_hnl
+        htg:
+          amount: '1000'
+          processorIds:
+            STRIPE: price_1000_htg
+        huf:
+          amount: '4000'
+          processorIds:
+            STRIPE: price_1000_huf
+            BRAINTREE: plan_1000_huf
+        idr:
+          amount: '125000'
+          processorIds:
+            STRIPE: price_1000_idr
+        ils:
+          amount: '40'
+          processorIds:
+            STRIPE: price_1000_ils
+            BRAINTREE: plan_1000_ils
+        inr:
+          amount: '750'
+          processorIds:
+            STRIPE: price_1000_inr
+        isk:
+          amount: '1500'
+          processorIds:
+            STRIPE: price_1000_isk
+        jmd:
+          amount: '1500'
+          processorIds:
+            STRIPE: price_1000_jmd
+        jpy:
+          amount: '1000'
+          processorIds:
+            STRIPE: price_1000_jpy
+            BRAINTREE: plan_1000_jpy
+        kes:
+          amount: '1000'
+          processorIds:
+            STRIPE: price_1000_kes
+        kgs:
+          amount: '800'
+          processorIds:
+            STRIPE: price_1000_kgs
+        khr:
+          amount: '40000'
+          processorIds:
+            STRIPE: price_1000_khr
+        kmf:
+          amount: '4000'
+          processorIds:
+            STRIPE: price_1000_kmf
+        krw:
+          amount: '10000'
+          processorIds:
+            STRIPE: price_1000_krw
+        kyd:
+          amount: '10'
+          processorIds:
+            STRIPE: price_1000_kyd
+        kzt:
+          amount: '4000'
+          processorIds:
+            STRIPE: price_1000_kzt
+        lak:
+          amount: '100000'
+          processorIds:
+            STRIPE: price_1000_lak
+        lbp:
+          amount: '15000'
+          processorIds:
+            STRIPE: price_1000_lbp
+        lkr:
+          amount: '3000'
+          processorIds:
+            STRIPE: price_1000_lkr
+        lrd:
+          amount: '1500'
+          processorIds:
+            STRIPE: price_1000_lrd
+        lsl:
+          amount: '150'
+          processorIds:
+            STRIPE: price_1000_lsl
+        mad:
+          amount: '100'
+          processorIds:
+            STRIPE: price_1000_mad
+        mdl:
+          amount: '200'
+          processorIds:
+            STRIPE: price_1000_mdl
+        mga:
+          amount: '40000'
+          processorIds:
+            STRIPE: price_1000_mga
+        mkd:
+          amount: '500'
+          processorIds:
+            STRIPE: price_1000_mkd
+        mmk:
+          amount: '20000'
+          processorIds:
+            STRIPE: price_1000_mmk
+        mnt:
+          amount: '25000'
+          processorIds:
+            STRIPE: price_1000_mnt
+        mop:
+          amount: '80'
+          processorIds:
+            STRIPE: price_1000_mop
+        mur:
+          amount: '300'
+          processorIds:
+            STRIPE: price_1000_mur
+        mvr:
+          amount: '150'
+          processorIds:
+            STRIPE: price_1000_mvr
+        mwk:
+          amount: '10000'
+          processorIds:
+            STRIPE: price_1000_mwk
+        mxn:
+          amount: '200'
+          processorIds:
+            STRIPE: price_1000_mxn
+            BRAINTREE: plan_1000_mxn
+        myr:
+          amount: '40'
+          processorIds:
+            STRIPE: price_1000_myr
+        mzn:
+          amount: '600'
+          processorIds:
+            STRIPE: price_1000_mzn
+        nad:
+          amount: '150'
+          processorIds:
+            STRIPE: price_1000_nad
+        ngn:
+          amount: '4000'
+          processorIds:
+            STRIPE: price_1000_ngn
+        nio:
+          amount: '350'
+          processorIds:
+            STRIPE: price_1000_nio
+        nok:
+          amount: '100'
+          processorIds:
+            STRIPE: price_1000_nok
+            BRAINTREE: plan_1000_nok
+        npr:
+          amount: '1200'
+          processorIds:
+            STRIPE: price_1000_npr
+        nzd:
+          amount: '20'
+          processorIds:
+            STRIPE: price_1000_nzd
+            BRAINTREE: plan_1000_nzd
+        pab:
+          amount: '10'
+          processorIds:
+            STRIPE: price_1000_pab
+        pen:
+          amount: '40'
+          processorIds:
+            STRIPE: price_1000_pen
+        pgk:
+          amount: '35'
+          processorIds:
+            STRIPE: price_1000_pgk
+        php:
+          amount: '500'
+          processorIds:
+            STRIPE: price_1000_php
+            BRAINTREE: plan_1000_php
+        pkr:
+          amount: '2000'
+          processorIds:
+            STRIPE: price_1000_pkr
+        pln:
+          amount: '40'
+          processorIds:
+            STRIPE: price_1000_pln
+            BRAINTREE: plan_1000_pln
+        pyg:
+          amount: '60000'
+          processorIds:
+            STRIPE: price_1000_pyg
+        qar:
+          amount: '40'
+          processorIds:
+            STRIPE: price_1000_qar
+        ron:
+          amount: '50'
+          processorIds:
+            STRIPE: price_1000_ron
+        rsd:
+          amount: '1000'
+          processorIds:
+            STRIPE: price_1000_rsd
+        rub:
+          amount: '600'
+          processorIds:
+            STRIPE: price_1000_rub
+            BRAINTREE: plan_1000_rub
+        rwf:
+          amount: '10000'
+          processorIds:
+            STRIPE: price_1000_rwf
+        sar:
+          amount: '40'
+          processorIds:
+            STRIPE: price_1000_sar
+        sbd:
+          amount: '75'
+          processorIds:
+            STRIPE: price_1000_sbd
+        scr:
+          amount: '125'
+          processorIds:
+            STRIPE: price_1000_scr
+        sek:
+          amount: '100'
+          processorIds:
+            STRIPE: price_1000_sek
+            BRAINTREE: plan_1000_sek
+        sgd:
+          amount: '15'
+          processorIds:
+            STRIPE: price_1000_sgd
+            BRAINTREE: plan_1000_sgd
+        shp:
+          amount: '7'
+          processorIds:
+            STRIPE: price_1000_shp
+        sos:
+          amount: '5000'
+          processorIds:
+            STRIPE: price_1000_sos
+        srd:
+          amount: '200'
+          processorIds:
+            STRIPE: price_1000_srd
+        std:
+          amount: '200'
+          processorIds:
+            STRIPE: price_1000_std
+        szl:
+          amount: '150'
+          processorIds:
+            STRIPE: price_1000_szl
+        thb:
+          amount: '300'
+          processorIds:
+            STRIPE: price_1000_thb
+            BRAINTREE: plan_1000_thb
+        tjs:
+          amount: '100'
+          processorIds:
+            STRIPE: price_1000_tjs
+        top:
+          amount: '20'
+          processorIds:
+            STRIPE: price_1000_top
+        try:
+          amount: '150'
+          processorIds:
+            STRIPE: price_1000_try
+        ttd:
+          amount: '60'
+          processorIds:
+            STRIPE: price_1000_ttd
+        twd:
+          amount: '300'
+          processorIds:
+            STRIPE: price_1000_twd
+            BRAINTREE: plan_1000_twd
+        tzs:
+          amount: '20000'
+          processorIds:
+            STRIPE: price_1000_tzs
+        uah:
+          amount: '300'
+          processorIds:
+            STRIPE: price_1000_uah
+        ugx:
+          amount: '35000'
+          processorIds:
+            STRIPE: price_1000_ugx
+        usd:
+          amount: '10'
+          processorIds:
+            STRIPE: price_1000_usd
+            BRAINTREE: plan_1000_usd
+        uyu:
+          amount: '400'
+          processorIds:
+            STRIPE: price_1000_uyu
+        uzs:
+          amount: '100000'
+          processorIds:
+            STRIPE: price_1000_uzs
+        vnd:
+          amount: '200000'
+          processorIds:
+            STRIPE: price_1000_vnd
+        vuv:
+          amount: '1000'
+          processorIds:
+            STRIPE: price_1000_vuv
+        wst:
+          amount: '25'
+          processorIds:
+            STRIPE: price_1000_wst
+        xaf:
+          amount: '5000'
+          processorIds:
+            STRIPE: price_1000_xaf
+        xcd:
+          amount: '25'
+          processorIds:
+            STRIPE: price_1000_xcd
+        xof:
+          amount: '5000'
+          processorIds:
+            STRIPE: price_1000_xof
+        xpf:
+          amount: '1000'
+          processorIds:
+            STRIPE: price_1000_xpf
+        yer:
+          amount: '2500'
+          processorIds:
+            STRIPE: price_1000_yer
+        zar:
+          amount: '150'
+          processorIds:
+            STRIPE: price_1000_zar
+        zmw:
+          amount: '150'
+          processorIds:
+            STRIPE: price_1000_zmw
+    2000:
+      badge: R_HIGH
+      prices:
+        aed:
+          amount: '80'
+          processorIds:
+            STRIPE: price_2000_aed
+        afn:
+          amount: '1800'
+          processorIds:
+            STRIPE: price_2000_afn
+        all:
+          amount: '2000'
+          processorIds:
+            STRIPE: price_2000_all
+        amd:
+          amount: '10000'
+          processorIds:
+            STRIPE: price_2000_amd
+        ang:
+          amount: '40'
+          processorIds:
+            STRIPE: price_2000_ang
+        aoa:
+          amount: '8000'
+          processorIds:
+            STRIPE: price_2000_aoa
+        ars:
+          amount: '2000'
+          processorIds:
+            STRIPE: price_2000_ars
+        aud:
+          amount: '30'
+          processorIds:
+            STRIPE: price_2000_aud
+            BRAINTREE: plan_2000_aud
+        awg:
+          amount: '40'
+          processorIds:
+            STRIPE: price_2000_awg
+        azn:
+          amount: '30'
+          processorIds:
+            STRIPE: price_2000_azn
+        bam:
+          amount: '30'
+          processorIds:
+            STRIPE: price_2000_bam
+        bbd:
+          amount: '40'
+          processorIds:
+            STRIPE: price_2000_bbd
+        bdt:
+          amount: '2000'
+          processorIds:
+            STRIPE: price_2000_bdt
+        bgn:
+          amount: '30'
+          processorIds:
+            STRIPE: price_2000_bgn
+        bif:
+          amount: '40000'
+          processorIds:
+            STRIPE: price_2000_bif
+        bmd:
+          amount: '20'
+          processorIds:
+            STRIPE: price_2000_bmd
+        bnd:
+          amount: '30'
+          processorIds:
+            STRIPE: price_2000_bnd
+        bob:
+          amount: '125'
+          processorIds:
+            STRIPE: price_2000_bob
+        brl:
+          amount: '100'
+          processorIds:
+            STRIPE: price_2000_brl
+            BRAINTREE: plan_2000_brl
+        bsd:
+          amount: '20'
+          processorIds:
+            STRIPE: price_2000_bsd
+        bwp:
+          amount: '200'
+          processorIds:
+            STRIPE: price_2000_bwp
+        bzd:
+          amount: '40'
+          processorIds:
+            STRIPE: price_2000_bzd
+        cad:
+          amount: '30'
+          processorIds:
+            STRIPE: price_2000_cad
+            BRAINTREE: plan_2000_cad
+        cdf:
+          amount: '40000'
+          processorIds:
+            STRIPE: price_2000_cdf
+        chf:
+          amount: '20'
+          processorIds:
+            STRIPE: price_2000_chf
+            BRAINTREE: plan_2000_chf
+        clp:
+          amount: '15000'
+          processorIds:
+            STRIPE: price_2000_clp
+        cny:
+          amount: '125'
+          processorIds:
+            STRIPE: price_2000_cny
+        cop:
+          amount: '80000'
+          processorIds:
+            STRIPE: price_2000_cop
+        crc:
+          amount: '12000'
+          processorIds:
+            STRIPE: price_2000_crc
+        cve:
+          amount: '2000'
+          processorIds:
+            STRIPE: price_2000_cve
+        czk:
+          amount: '500'
+          processorIds:
+            STRIPE: price_2000_czk
+            BRAINTREE: plan_2000_czk
+        djf:
+          amount: '3000'
+          processorIds:
+            STRIPE: price_2000_djf
+        dkk:
+          amount: '150'
+          processorIds:
+            STRIPE: price_2000_dkk
+            BRAINTREE: plan_2000_dkk
+        dop:
+          amount: '1000'
+          processorIds:
+            STRIPE: price_2000_dop
+        dzd:
+          amount: '2500'
+          processorIds:
+            STRIPE: price_2000_dzd
+        egp:
+          amount: '300'
+          processorIds:
+            STRIPE: price_2000_egp
+        etb:
+          amount: '800'
+          processorIds:
+            STRIPE: price_2000_etb
+        eur:
+          amount: '20'
+          processorIds:
+            STRIPE: price_2000_eur
+            BRAINTREE: plan_2000_eur
+        fjd:
+          amount: '40'
+          processorIds:
+            STRIPE: price_2000_fjd
+        fkp:
+          amount: '20'
+          processorIds:
+            STRIPE: price_2000_fkp
+        gbp:
+          amount: '20'
+          processorIds:
+            STRIPE: price_2000_gbp
+            BRAINTREE: plan_2000_gbp
+        gel:
+          amount: '60'
+          processorIds:
+            STRIPE: price_2000_gel
+        gip:
+          amount: '20'
+          processorIds:
+            STRIPE: price_2000_gip
+        gmd:
+          amount: '1000'
+          processorIds:
+            STRIPE: price_2000_gmd
+        gnf:
+          amount: '200000'
+          processorIds:
+            STRIPE: price_2000_gnf
+        gtq:
+          amount: '150'
+          processorIds:
+            STRIPE: price_2000_gtq
+        gyd:
+          amount: '4000'
+          processorIds:
+            STRIPE: price_2000_gyd
+        hkd:
+          amount: '150'
+          processorIds:
+            STRIPE: price_2000_hkd
+            BRAINTREE: plan_2000_hkd
+        hnl:
+          amount: '500'
+          processorIds:
+            STRIPE: price_2000_hnl
+        htg:
+          amount: '2000'
+          processorIds:
+            STRIPE: price_2000_htg
+        huf:
+          amount: '8000'
+          processorIds:
+            STRIPE: price_2000_huf
+            BRAINTREE: plan_2000_huf
+        idr:
+          amount: '250000'
+          processorIds:
+            STRIPE: price_2000_idr
+        ils:
+          amount: '80'
+          processorIds:
+            STRIPE: price_2000_ils
+            BRAINTREE: plan_2000_ils
+        inr:
+          amount: '1500'
+          processorIds:
+            STRIPE: price_2000_inr
+        isk:
+          amount: '3000'
+          processorIds:
+            STRIPE: price_2000_isk
+        jmd:
+          amount: '3000'
+          processorIds:
+            STRIPE: price_2000_jmd
+        jpy:
+          amount: '2000'
+          processorIds:
+            STRIPE: price_2000_jpy
+            BRAINTREE: plan_2000_jpy
+        kes:
+          amount: '2000'
+          processorIds:
+            STRIPE: price_2000_kes
+        kgs:
+          amount: '1600'
+          processorIds:
+            STRIPE: price_2000_kgs
+        khr:
+          amount: '80000'
+          processorIds:
+            STRIPE: price_2000_khr
+        kmf:
+          amount: '8000'
+          processorIds:
+            STRIPE: price_2000_kmf
+        krw:
+          amount: '20000'
+          processorIds:
+            STRIPE: price_2000_krw
+        kyd:
+          amount: '20'
+          processorIds:
+            STRIPE: price_2000_kyd
+        kzt:
+          amount: '8000'
+          processorIds:
+            STRIPE: price_2000_kzt
+        lak:
+          amount: '200000'
+          processorIds:
+            STRIPE: price_2000_lak
+        lbp:
+          amount: '30000'
+          processorIds:
+            STRIPE: price_2000_lbp
+        lkr:
+          amount: '5000'
+          processorIds:
+            STRIPE: price_2000_lkr
+        lrd:
+          amount: '3000'
+          processorIds:
+            STRIPE: price_2000_lrd
+        lsl:
+          amount: '300'
+          processorIds:
+            STRIPE: price_2000_lsl
+        mad:
+          amount: '200'
+          processorIds:
+            STRIPE: price_2000_mad
+        mdl:
+          amount: '400'
+          processorIds:
+            STRIPE: price_2000_mdl
+        mga:
+          amount: '80000'
+          processorIds:
+            STRIPE: price_2000_mga
+        mkd:
+          amount: '1000'
+          processorIds:
+            STRIPE: price_2000_mkd
+        mmk:
+          amount: '40000'
+          processorIds:
+            STRIPE: price_2000_mmk
+        mnt:
+          amount: '50000'
+          processorIds:
+            STRIPE: price_2000_mnt
+        mop:
+          amount: '160'
+          processorIds:
+            STRIPE: price_2000_mop
+        mur:
+          amount: '800'
+          processorIds:
+            STRIPE: price_2000_mur
+        mvr:
+          amount: '300'
+          processorIds:
+            STRIPE: price_2000_mvr
+        mwk:
+          amount: '20000'
+          processorIds:
+            STRIPE: price_2000_mwk
+        mxn:
+          amount: '400'
+          processorIds:
+            STRIPE: price_2000_mxn
+            BRAINTREE: plan_2000_mxn
+        myr:
+          amount: '80'
+          processorIds:
+            STRIPE: price_2000_myr
+        mzn:
+          amount: '1200'
+          processorIds:
+            STRIPE: price_2000_mzn
+        nad:
+          amount: '300'
+          processorIds:
+            STRIPE: price_2000_nad
+        ngn:
+          amount: '8000'
+          processorIds:
+            STRIPE: price_2000_ngn
+        nio:
+          amount: '700'
+          processorIds:
+            STRIPE: price_2000_nio
+        nok:
+          amount: '200'
+          processorIds:
+            STRIPE: price_2000_nok
+            BRAINTREE: plan_2000_nok
+        npr:
+          amount: '2400'
+          processorIds:
+            STRIPE: price_2000_npr
+        nzd:
+          amount: '30'
+          processorIds:
+            STRIPE: price_2000_nzd
+            BRAINTREE: plan_2000_nzd
+        pab:
+          amount: '20'
+          processorIds:
+            STRIPE: price_2000_pab
+        pen:
+          amount: '80'
+          processorIds:
+            STRIPE: price_2000_pen
+        pgk:
+          amount: '70'
+          processorIds:
+            STRIPE: price_2000_pgk
+        php:
+          amount: '1000'
+          processorIds:
+            STRIPE: price_2000_php
+            BRAINTREE: plan_2000_php
+        pkr:
+          amount: '4000'
+          processorIds:
+            STRIPE: price_2000_pkr
+        pln:
+          amount: '80'
+          processorIds:
+            STRIPE: price_2000_pln
+            BRAINTREE: plan_2000_pln
+        pyg:
+          amount: '125000'
+          processorIds:
+            STRIPE: price_2000_pyg
+        qar:
+          amount: '80'
+          processorIds:
+            STRIPE: price_2000_qar
+        ron:
+          amount: '100'
+          processorIds:
+            STRIPE: price_2000_ron
+        rsd:
+          amount: '2000'
+          processorIds:
+            STRIPE: price_2000_rsd
+        rub:
+          amount: '1200'
+          processorIds:
+            STRIPE: price_2000_rub
+            BRAINTREE: plan_2000_rub
+        rwf:
+          amount: '20000'
+          processorIds:
+            STRIPE: price_2000_rwf
+        sar:
+          amount: '80'
+          processorIds:
+            STRIPE: price_2000_sar
+        sbd:
+          amount: '150'
+          processorIds:
+            STRIPE: price_2000_sbd
+        scr:
+          amount: '250'
+          processorIds:
+            STRIPE: price_2000_scr
+        sek:
+          amount: '200'
+          processorIds:
+            STRIPE: price_2000_sek
+            BRAINTREE: plan_2000_sek
+        sgd:
+          amount: '30'
+          processorIds:
+            STRIPE: price_2000_sgd
+            BRAINTREE: plan_2000_sgd
+        shp:
+          amount: '15'
+          processorIds:
+            STRIPE: price_2000_shp
+        sos:
+          amount: '10000'
+          processorIds:
+            STRIPE: price_2000_sos
+        srd:
+          amount: '400'
+          processorIds:
+            STRIPE: price_2000_srd
+        std:
+          amount: '400'
+          processorIds:
+            STRIPE: price_2000_std
+        szl:
+          amount: '300'
+          processorIds:
+            STRIPE: price_2000_szl
+        thb:
+          amount: '700'
+          processorIds:
+            STRIPE: price_2000_thb
+            BRAINTREE: plan_2000_thb
+        tjs:
+          amount: '200'
+          processorIds:
+            STRIPE: price_2000_tjs
+        top:
+          amount: '40'
+          processorIds:
+            STRIPE: price_2000_top
+        try:
+          amount: '300'
+          processorIds:
+            STRIPE: price_2000_try
+        ttd:
+          amount: '125'
+          processorIds:
+            STRIPE: price_2000_ttd
+        twd:
+          amount: '600'
+          processorIds:
+            STRIPE: price_2000_twd
+            BRAINTREE: plan_2000_twd
+        tzs:
+          amount: '40000'
+          processorIds:
+            STRIPE: price_2000_tzs
+        uah:
+          amount: '600'
+          processorIds:
+            STRIPE: price_2000_uah
+        ugx:
+          amount: '70000'
+          processorIds:
+            STRIPE: price_2000_ugx
+        usd:
+          amount: '20'
+          processorIds:
+            STRIPE: price_2000_usd
+            BRAINTREE: plan_2000_usd
+        uyu:
+          amount: '800'
+          processorIds:
+            STRIPE: price_2000_uyu
+        uzs:
+          amount: '200000'
+          processorIds:
+            STRIPE: price_2000_uzs
+        vnd:
+          amount: '400000'
+          processorIds:
+            STRIPE: price_2000_vnd
+        vuv:
+          amount: '2000'
+          processorIds:
+            STRIPE: price_2000_vuv
+        wst:
+          amount: '50'
+          processorIds:
+            STRIPE: price_2000_wst
+        xaf:
+          amount: '10000'
+          processorIds:
+            STRIPE: price_2000_xaf
+        xcd:
+          amount: '50'
+          processorIds:
+            STRIPE: price_2000_xcd
+        xof:
+          amount: '10000'
+          processorIds:
+            STRIPE: price_2000_xof
+        xpf:
+          amount: '2000'
+          processorIds:
+            STRIPE: price_2000_xpf
+        yer:
+          amount: '5000'
+          processorIds:
+            STRIPE: price_2000_yer
+        zar:
+          amount: '300'
+          processorIds:
+            STRIPE: price_2000_zar
+        zmw:
+          amount: '300'
+          processorIds:
+            STRIPE: price_2000_zmw
 oneTimeDonations:
   sepaMaximumEuros: '10000'
   boost:

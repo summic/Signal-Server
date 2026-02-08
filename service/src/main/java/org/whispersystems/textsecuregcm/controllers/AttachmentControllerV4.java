@@ -81,7 +81,8 @@ public class AttachmentControllerV4 {
       throws RateLimitExceededException {
     rateLimiter.validate(auth.accountIdentifier());
     final String key = generateAttachmentKey();
-    final boolean useCdn3 = this.experimentEnrollmentManager.isEnrolled(auth.accountIdentifier(), CDN3_EXPERIMENT_NAME);
+    // Self-host: prefer TUS (cdn3) to avoid external GCS dependencies.
+    final boolean useCdn3 = true;
     int cdn = useCdn3 ? 3 : 2;
     final AttachmentGenerator.Descriptor descriptor = this.attachmentGenerators.get(cdn).generateAttachment(key);
     return new AttachmentDescriptorV3(cdn, key, descriptor.headers(), descriptor.signedUploadLocation());

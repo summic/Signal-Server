@@ -23,11 +23,27 @@ public record PaymentsServiceClientsConfiguration(@NotNull SecretString coinGeck
 
   @Override
   public FixerClient buildFixerClient(final HttpClient httpClient) {
+    if (isStubKey(fixerApiKey.value())) {
+      return new StubPaymentsServiceClientsFactory().buildFixerClient(httpClient);
+    }
     return new FixerClient(httpClient, fixerApiKey.value());
   }
 
   @Override
   public CoinGeckoClient buildCoinGeckoClient(final HttpClient httpClient) {
+    if (isStubKey(coinGeckoApiKey.value())) {
+      return new StubPaymentsServiceClientsFactory().buildCoinGeckoClient(httpClient);
+    }
     return new CoinGeckoClient(httpClient, coinGeckoApiKey.value(), coinGeckoCurrencyIds);
+  }
+
+  private static boolean isStubKey(final String key) {
+    if (key == null) {
+      return true;
+    }
+    final String normalized = key.trim();
+    return normalized.isEmpty()
+        || "unset".equalsIgnoreCase(normalized)
+        || normalized.startsWith("local-test-");
   }
 }

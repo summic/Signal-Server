@@ -71,6 +71,7 @@ public class CurrencyConversionManager implements Managed {
   private Map<String, BigDecimal> cachedCoinGeckoValues;
 
   private ScheduledFuture<?> cacheUpdateFuture;
+  private final boolean stubMode = true;
 
   public CurrencyConversionManager(
       final FixerClient fixerClient,
@@ -93,6 +94,10 @@ public class CurrencyConversionManager implements Managed {
 
   @Override
   public void start() throws Exception {
+    if (stubMode) {
+      initializeStubCaches();
+      return;
+    }
     cacheUpdateFuture = executor.scheduleWithFixedDelay(() -> {
       try {
         update();
@@ -112,6 +117,10 @@ public class CurrencyConversionManager implements Managed {
 
   @VisibleForTesting
   void update() throws IOException {
+    if (stubMode) {
+      initializeStubCaches();
+      return;
+    }
     updateFixerCacheIfNecessary();
     updateCoinGeckoCacheIfNecessary();
     updateEntity();
@@ -204,6 +213,9 @@ public class CurrencyConversionManager implements Managed {
   }
 
   private void updateCachedData(final String cacheKey, final Map<String, BigDecimal> data) {
+    if (data == null || data.isEmpty()) {
+      return;
+    }
     cacheCluster.useCluster(connection -> {
       final Map<String, String> sharedValues = new HashMap<>();
 
@@ -232,7 +244,41 @@ public class CurrencyConversionManager implements Managed {
       return Optional.of(amount);
     }
 
+    if (cachedFixerValues == null) {
+      return Optional.empty();
+    }
     return Optional.ofNullable(cachedFixerValues.get(currency.toUpperCase(Locale.ROOT)))
         .map(conversionRate -> amount.divide(conversionRate, 2, RoundingMode.HALF_EVEN));
+  }
+
+  private void initializeStubCaches() {
+    final Map<String, BigDecimal> stubValues = new HashMap<>();
+    if (currencies == null || currencies.isEmpty()) {
+      stubValues.put("USD", BigDecimal.ONE);
+    } else {
+      for (final String currency : currencies) {
+        if (currency == null || currency.isBlank()) {
+          continue;
+        }
+        stubValues.put(currency.toUpperCase(Locale.ROOT), BigDecimal.ONE);
+      }
+      if (!stubValues.containsKey("USD")) {
+        stubValues.put("USD", BigDecimal.ONE);
+      }
+    }
+
+    cachedFixerValues = new HashMap<>(stubValues);
+    cachedCoinGeckoValues = new HashMap<>(stubValues);
+
+    final List<CurrencyConversionEntity> entities = new ArrayList<>(cachedCoinGeckoValues.size());
+    for (Map.Entry<String, BigDecimal> currency : cachedCoinGeckoValues.entrySet()) {
+      final Map<String, BigDecimal> values = new HashMap<>();
+      for (Map.Entry<String, BigDecimal> conversion : cachedFixerValues.entrySet()) {
+        values.put(conversion.getKey(), BigDecimal.ONE);
+      }
+      entities.add(new CurrencyConversionEntity(currency.getKey(), values));
+    }
+
+    cached.set(new CurrencyConversionEntityList(entities, clock.millis()));
   }
 }
