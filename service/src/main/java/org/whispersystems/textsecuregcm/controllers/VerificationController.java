@@ -250,7 +250,8 @@ public class VerificationController {
         registrationServiceSession.expiration());
 
     if (isStubRegistrationService()) {
-      verificationSession = new VerificationSession(null,
+      verificationSession = new VerificationSession(verificationSession.sessionId(),
+          null,
           maybeCarrierData.orElse(null),
           Collections.emptyList(),
           Collections.emptyList(),
@@ -260,7 +261,7 @@ public class VerificationController {
           verificationSession.createdTimestamp(),
           clock.millis(),
           verificationSession.remoteExpirationSeconds());
-      storeVerificationSession(registrationServiceSession, verificationSession);
+      storeVerificationSession(verificationSession);
       return buildResponse(registrationServiceSession, verificationSession);
     }
 
@@ -310,7 +311,8 @@ public class VerificationController {
     VerificationSession verificationSession = retrieveVerificationSession(registrationServiceSession);
 
     if (isStubRegistrationService()) {
-      verificationSession = new VerificationSession(verificationSession.pushChallenge(),
+      verificationSession = new VerificationSession(verificationSession.sessionId(),
+          verificationSession.pushChallenge(),
           verificationSession.carrierData(),
           Collections.emptyList(),
           verificationSession.submittedInformation(),
@@ -320,7 +322,7 @@ public class VerificationController {
           verificationSession.createdTimestamp(),
           clock.millis(),
           verificationSession.remoteExpirationSeconds());
-      updateStoredVerificationSession(registrationServiceSession, verificationSession);
+      updateStoredVerificationSession(verificationSession);
       return buildResponse(registrationServiceSession, verificationSession);
     }
 
