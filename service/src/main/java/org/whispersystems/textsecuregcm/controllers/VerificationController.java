@@ -266,9 +266,21 @@ public class VerificationController {
     }
 
     verificationSession = handlePushToken(pushTokenAndType, verificationSession);
-    // unconditionally request a captcha -- it will either be the only requested information, or a fallback
-    // if a push challenge sent in `handlePushToken` doesn't arrive in time
-    verificationSession.requestedInformation().add(VerificationSession.Information.CAPTCHA);
+    // For self-hosted deployments, allow requesting SMS/voice code directly when no push
+    // token was supplied (e.g. signal-cli primary registration).
+    if (pushTokenAndType.first() == null) {
+      verificationSession = new VerificationSession(verificationSession.sessionId(),
+          verificationSession.pushChallenge(),
+          verificationSession.carrierData(),
+          verificationSession.requestedInformation(),
+          verificationSession.submittedInformation(),
+          verificationSession.smsSenderOverride(),
+          verificationSession.voiceSenderOverride(),
+          true,
+          verificationSession.createdTimestamp(),
+          clock.millis(),
+          verificationSession.remoteExpirationSeconds());
+    }
 
     storeVerificationSession(verificationSession);
 
