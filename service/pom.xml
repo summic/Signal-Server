@@ -18,6 +18,7 @@
     <libphonenumber-geocoder.version>3.23</libphonenumber-geocoder.version>
     <google-androidpublisher.version>v3-rev20250904-2.0.0</google-androidpublisher.version>
     <java-jwt.version>4.5.0</java-jwt.version>
+    <jwks-rsa.version>0.23.0</jwks-rsa.version>
     <java-uuid-generator.version>5.2.0</java-uuid-generator.version>
     <!-- *all* opentelemetry-logback-appender versions are "alpha" despite the advanced version number -->
     <opentelemetry-logback-appender-1.0.version>2.22.0-alpha</opentelemetry-logback-appender-1.0.version>
@@ -30,6 +31,11 @@
       <groupId>com.auth0</groupId>
       <artifactId>java-jwt</artifactId>
       <version>${java-jwt.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.auth0</groupId>
+      <artifactId>jwks-rsa</artifactId>
+      <version>${jwks-rsa.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.apis</groupId>

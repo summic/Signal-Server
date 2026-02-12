@@ -14,6 +14,7 @@ import io.grpc.ServerInterceptor;
 import io.grpc.Status;
 import java.util.Optional;
 import org.whispersystems.textsecuregcm.auth.AccountAuthenticator;
+import org.whispersystems.textsecuregcm.auth.OAuthTokenAuthenticator;
 import org.whispersystems.textsecuregcm.grpc.GrpcExceptions;
 import org.whispersystems.textsecuregcm.grpc.ServerInterceptorUtil;
 import org.whispersystems.textsecuregcm.util.HeaderUtils;
@@ -29,9 +30,16 @@ public class RequireAuthenticationInterceptor implements ServerInterceptor {
   static final String AUTHORIZATION_HEADER = "authorization";
 
   private final AccountAuthenticator authenticator;
+  private final Optional<OAuthTokenAuthenticator> oauthTokenAuthenticator;
 
   public RequireAuthenticationInterceptor(final AccountAuthenticator authenticator) {
+    this(authenticator, Optional.empty());
+  }
+
+  public RequireAuthenticationInterceptor(final AccountAuthenticator authenticator,
+      final Optional<OAuthTokenAuthenticator> oauthTokenAuthenticator) {
     this.authenticator = authenticator;
+    this.oauthTokenAuthenticator = oauthTokenAuthenticator;
   }
 
   @Override
@@ -45,14 +53,25 @@ public class RequireAuthenticationInterceptor implements ServerInterceptor {
           GrpcExceptions.invalidCredentials("missing authorization header"));
     }
 
-    final Optional<BasicCredentials> basicCredentials = HeaderUtils.basicCredentialsFromAuthHeader(authHeaderString);
-    if (basicCredentials.isEmpty()) {
-      return ServerInterceptorUtil.closeWithStatusException(call,
-          GrpcExceptions.invalidCredentials("malformed authorization header"));
+    final Optional<org.whispersystems.textsecuregcm.auth.AuthenticatedDevice> authenticated;
+
+    final Optional<String> bearerToken = HeaderUtils.bearerTokenFromAuthHeader(authHeaderString);
+    if (bearerToken.isPresent()) {
+      if (oauthTokenAuthenticator.isEmpty()) {
+        return ServerInterceptorUtil.closeWithStatusException(call,
+            GrpcExceptions.invalidCredentials("bearer auth not enabled"));
+      }
+      authenticated = oauthTokenAuthenticator.get().authenticate(bearerToken.get());
+    } else {
+      final Optional<BasicCredentials> basicCredentials = HeaderUtils.basicCredentialsFromAuthHeader(authHeaderString);
+      if (basicCredentials.isEmpty()) {
+        return ServerInterceptorUtil.closeWithStatusException(call,
+            GrpcExceptions.invalidCredentials("malformed authorization header"));
+      }
+
+      authenticated = authenticator.authenticate(basicCredentials.get());
     }
 
-    final Optional<org.whispersystems.textsecuregcm.auth.AuthenticatedDevice> authenticated =
-        authenticator.authenticate(basicCredentials.get());
     if (authenticated.isEmpty()) {
       return ServerInterceptorUtil.closeWithStatusException(call,
           GrpcExceptions.invalidCredentials("invalid credentials"));

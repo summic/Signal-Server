@@ -95,6 +95,21 @@ public final class HeaderUtils {
     return Optional.of(new BasicCredentials(username, password));
   }
 
+  public static Optional<String> bearerTokenFromAuthHeader(final String authHeader) {
+    final int space = authHeader.indexOf(' ');
+    if (space <= 0) {
+      return Optional.empty();
+    }
+
+    final String method = authHeader.substring(0, space);
+    if (!"Bearer".equalsIgnoreCase(method)) {
+      return Optional.empty();
+    }
+
+    final String token = authHeader.substring(space + 1).trim();
+    return token.isEmpty() ? Optional.empty() : Optional.of(token);
+  }
+
   public static List<Locale> getAcceptableLanguagesForRequest(ContainerRequestContext containerRequestContext) {
     try {
       return containerRequestContext.getAcceptableLanguages();

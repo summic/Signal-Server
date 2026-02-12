@@ -48,6 +48,7 @@ import org.whispersystems.textsecuregcm.configuration.MaxDeviceConfiguration;
 import org.whispersystems.textsecuregcm.configuration.MessageByteLimitCardinalityEstimatorConfiguration;
 import org.whispersystems.textsecuregcm.configuration.MessageCacheConfiguration;
 import org.whispersystems.textsecuregcm.configuration.OneTimeDonationConfiguration;
+import org.whispersystems.textsecuregcm.configuration.OAuthConfiguration;
 import org.whispersystems.textsecuregcm.configuration.OpenTelemetryConfiguration;
 import org.whispersystems.textsecuregcm.configuration.PagedSingleUseKEMPreKeyStoreConfiguration;
 import org.whispersystems.textsecuregcm.configuration.PaymentsServiceConfiguration;
@@ -354,6 +355,11 @@ public class WhisperServerConfiguration extends Configuration {
   @JsonProperty
   private GrpcAllowListConfiguration grpcAllowList = new GrpcAllowListConfiguration();
 
+  @NotNull
+  @Valid
+  @JsonProperty
+  private OAuthConfiguration oauth = new OAuthConfiguration();
+
   @Valid
   @NotNull
   @JsonProperty
@@ -597,6 +603,10 @@ public class WhisperServerConfiguration extends Configuration {
 
   public GrpcAllowListConfiguration getGrpcAllowList() {
     return grpcAllowList;
+  }
+
+  public OAuthConfiguration getOAuthConfiguration() {
+    return oauth;
   }
 
   public S3ObjectMonitorFactory getAsnTableConfiguration() {

@@ -14,6 +14,8 @@ import io.dropwizard.auth.AuthFilter;
 import io.dropwizard.auth.AuthValueFactoryProvider;
 import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
 import io.dropwizard.auth.basic.BasicCredentials;
+import io.dropwizard.auth.chained.ChainedAuthFilter;
+import io.dropwizard.auth.oauth.OAuthCredentialAuthFilter;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
 import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.core.Application;
@@ -84,6 +86,7 @@ import org.whispersystems.textsecuregcm.auth.CloudflareTurnCredentialsManager;
 import org.whispersystems.textsecuregcm.auth.DisconnectionRequestManager;
 import org.whispersystems.textsecuregcm.auth.ExternalServiceCredentialsGenerator;
 import org.whispersystems.textsecuregcm.auth.IdlePrimaryDeviceAuthenticatedWebSocketUpgradeFilter;
+import org.whispersystems.textsecuregcm.auth.OAuthTokenAuthenticator;
 import org.whispersystems.textsecuregcm.auth.PhoneVerificationTokenManager;
 import org.whispersystems.textsecuregcm.auth.RegistrationLockVerificationManager;
 import org.whispersystems.textsecuregcm.auth.grpc.ProhibitAuthenticationInterceptor;
@@ -886,7 +889,22 @@ public class WhisperServerService extends Application<WhisperServerConfiguration
     final ExternalRequestFilter grpcExternalRequestFilter = new ExternalRequestFilter(
         config.getExternalRequestFilterConfiguration().permittedInternalRanges(),
         config.getExternalRequestFilterConfiguration().grpcMethods());
-    final RequireAuthenticationInterceptor requireAuthenticationInterceptor = new RequireAuthenticationInterceptor(accountAuthenticator);
+
+    Optional<OAuthTokenAuthenticator> oauthTokenAuthenticator = Optional.empty();
+    if (config.getOAuthConfiguration().enabled()) {
+      if (config.getOAuthConfiguration().jwksUrl() == null || config.getOAuthConfiguration().jwksUrl().isBlank()) {
+        log.warn("OAuth enabled but jwksUrl is not configured; bearer auth disabled.");
+      } else {
+        try {
+          oauthTokenAuthenticator = Optional.of(new OAuthTokenAuthenticator(config.getOAuthConfiguration()));
+        } catch (Exception e) {
+          log.warn("OAuth enabled but OAuth authenticator init failed; bearer auth disabled.", e);
+        }
+      }
+    }
+
+    final RequireAuthenticationInterceptor requireAuthenticationInterceptor =
+        new RequireAuthenticationInterceptor(accountAuthenticator, oauthTokenAuthenticator);
     final ProhibitAuthenticationInterceptor prohibitAuthenticationInterceptor = new ProhibitAuthenticationInterceptor();
 
     final List<ServerServiceDefinition> authenticatedServices = Stream.of(
@@ -955,10 +973,27 @@ public class WhisperServerService extends Application<WhisperServerConfiguration
               config.getExternalRequestFilterConfiguration().paths().toArray(new String[]{}));
     }
 
-    final AuthFilter<BasicCredentials, AuthenticatedDevice> accountAuthFilter =
+    final AuthFilter<BasicCredentials, AuthenticatedDevice> basicAccountAuthFilter =
         new BasicCredentialAuthFilter.Builder<AuthenticatedDevice>()
             .setAuthenticator(accountAuthenticator)
             .buildAuthFilter();
+
+    final AuthFilter<?, AuthenticatedDevice> accountAuthFilter;
+    if (oauthTokenAuthenticator.isPresent()) {
+      final AuthFilter<String, AuthenticatedDevice> oauthAccountAuthFilter =
+          new OAuthCredentialAuthFilter.Builder<AuthenticatedDevice>()
+              .setAuthenticator(oauthTokenAuthenticator.get())
+              .setPrefix("Bearer")
+              .buildAuthFilter();
+
+      if (config.getOAuthConfiguration().allowBasicAuth()) {
+        accountAuthFilter = new ChainedAuthFilter<>(List.of(oauthAccountAuthFilter, basicAccountAuthFilter));
+      } else {
+        accountAuthFilter = oauthAccountAuthFilter;
+      }
+    } else {
+      accountAuthFilter = basicAccountAuthFilter;
+    }
 
     final String websocketServletPath = "/v1/websocket/";
     final String provisioningWebsocketServletPath = "/v1/websocket/provisioning/";
