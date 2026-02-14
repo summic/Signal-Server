@@ -44,6 +44,12 @@ import org.whispersystems.textsecuregcm.storage.RedeemedReceiptsManager;
 @Tag(name = "Donations")
 public class DonationController {
 
+  private static final String PAYMENTS_DISABLED_MESSAGE =
+      "Payment and donation endpoints are disabled on this server";
+  private static final Response.Status PAYMENT_DISABLED_STATUS = Response.Status.NOT_IMPLEMENTED;
+  private static final boolean PAYMENT_ENDPOINTS_DISABLED =
+      Boolean.parseBoolean(System.getenv().getOrDefault("SIGNAL_DISABLE_PAYMENT_ENDPOINTS", "true"));
+
   public interface ReceiptCredentialPresentationFactory {
     ReceiptCredentialPresentation build(byte[] bytes) throws InvalidInputException;
   }
@@ -91,6 +97,10 @@ public class DonationController {
   public Response redeemReceipt(
       @Auth final AuthenticatedDevice auth,
       @NotNull @Valid final RedeemReceiptRequest request) {
+    if (PAYMENT_ENDPOINTS_DISABLED) {
+      return disabledResponse();
+    }
+
     ReceiptCredentialPresentation receiptCredentialPresentation;
     try {
       receiptCredentialPresentation = receiptCredentialPresentationFactory
@@ -140,6 +150,13 @@ public class DonationController {
       }
     });
     return Response.ok().build();
+  }
+
+  private static Response disabledResponse() {
+    return Response.status(PAYMENT_DISABLED_STATUS)
+        .type(MediaType.TEXT_PLAIN_TYPE)
+        .entity(PAYMENTS_DISABLED_MESSAGE)
+        .build();
   }
 
 }

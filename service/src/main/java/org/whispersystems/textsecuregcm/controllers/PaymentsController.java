@@ -10,7 +10,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.whispersystems.textsecuregcm.auth.AuthenticatedDevice;
 import org.whispersystems.textsecuregcm.auth.ExternalServiceCredentials;
 import org.whispersystems.textsecuregcm.auth.ExternalServiceCredentialsGenerator;
@@ -24,6 +26,11 @@ public class PaymentsController {
 
   private final ExternalServiceCredentialsGenerator paymentsServiceCredentialsGenerator;
   private final CurrencyConversionManager currencyManager;
+  private static final String PAYMENTS_DISABLED_MESSAGE =
+      "Payment and donation endpoints are disabled on this server";
+  private static final Response.Status PAYMENT_DISABLED_STATUS = Response.Status.NOT_IMPLEMENTED;
+  private static final boolean PAYMENT_ENDPOINTS_DISABLED =
+      Boolean.parseBoolean(System.getenv().getOrDefault("SIGNAL_DISABLE_PAYMENT_ENDPOINTS", "true"));
 
 
   public static ExternalServiceCredentialsGenerator credentialsGenerator(final PaymentsServiceConfiguration cfg) {
@@ -43,6 +50,10 @@ public class PaymentsController {
   @Path("/auth")
   @Produces(MediaType.APPLICATION_JSON)
   public ExternalServiceCredentials getAuth(final @Auth AuthenticatedDevice auth) {
+    if (PAYMENT_ENDPOINTS_DISABLED) {
+      throw new WebApplicationException(paymentDisabledResponse());
+    }
+
     return paymentsServiceCredentialsGenerator.generateForUuid(auth.accountIdentifier());
   }
 
@@ -50,6 +61,17 @@ public class PaymentsController {
   @Path("/conversions")
   @Produces(MediaType.APPLICATION_JSON)
   public CurrencyConversionEntityList getConversions(final @Auth AuthenticatedDevice auth) {
+    if (PAYMENT_ENDPOINTS_DISABLED) {
+      throw new WebApplicationException(paymentDisabledResponse());
+    }
+
     return currencyManager.getCurrencyConversions().orElseThrow();
+  }
+
+  private static Response paymentDisabledResponse() {
+    return Response.status(PAYMENT_DISABLED_STATUS)
+        .type(MediaType.TEXT_PLAIN_TYPE)
+        .entity(PAYMENTS_DISABLED_MESSAGE)
+        .build();
   }
 }

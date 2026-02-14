@@ -85,6 +85,11 @@ public class OneTimeDonationController {
   private static final Logger logger = LoggerFactory.getLogger(OneTimeDonationController.class);
 
   private static final String EURO_CURRENCY_CODE = "EUR";
+  private static final String PAYMENTS_DISABLED_MESSAGE =
+      "Payment and donation endpoints are disabled on this server";
+  private static final Response.Status PAYMENT_DISABLED_STATUS = Response.Status.NOT_IMPLEMENTED;
+  private static final boolean PAYMENT_ENDPOINTS_DISABLED =
+      Boolean.parseBoolean(System.getenv().getOrDefault("SIGNAL_DISABLE_PAYMENT_ENDPOINTS", "true"));
 
   private final Clock clock;
   private final OneTimeDonationConfiguration oneTimeDonationConfiguration;
@@ -165,6 +170,9 @@ public class OneTimeDonationController {
       @Auth Optional<AuthenticatedDevice> authenticatedAccount,
       @NotNull @Valid CreateBoostRequest request,
       @HeaderParam(HttpHeaders.USER_AGENT) final String userAgent) {
+    if (PAYMENT_ENDPOINTS_DISABLED) {
+      return CompletableFuture.completedFuture(disabledResponse());
+    }
 
     if (authenticatedAccount.isPresent()) {
       throw new ForbiddenException("must not use authenticated connection for one-time donation operations");
@@ -252,6 +260,9 @@ public class OneTimeDonationController {
       @NotNull @Valid CreatePayPalBoostRequest request,
       @HeaderParam(HttpHeaders.USER_AGENT) final String userAgent,
       @Context ContainerRequestContext containerRequestContext) {
+    if (PAYMENT_ENDPOINTS_DISABLED) {
+      return CompletableFuture.completedFuture(disabledResponse());
+    }
 
     if (authenticatedAccount.isPresent()) {
       throw new ForbiddenException("must not use authenticated connection for one-time donation operations");
@@ -298,6 +309,9 @@ public class OneTimeDonationController {
       @Auth Optional<AuthenticatedDevice> authenticatedAccount,
       @NotNull @Valid ConfirmPayPalBoostRequest request,
       @HeaderParam(HttpHeaders.USER_AGENT) final String userAgent) {
+    if (PAYMENT_ENDPOINTS_DISABLED) {
+      return CompletableFuture.completedFuture(disabledResponse());
+    }
 
     if (authenticatedAccount.isPresent()) {
       throw new ForbiddenException("must not use authenticated connection for one-time donation operations");
@@ -344,6 +358,9 @@ public class OneTimeDonationController {
       @Auth Optional<AuthenticatedDevice> authenticatedAccount,
       @NotNull @Valid final CreateBoostReceiptCredentialsRequest request,
       @HeaderParam(HttpHeaders.USER_AGENT) final String userAgent) {
+    if (PAYMENT_ENDPOINTS_DISABLED) {
+      return CompletableFuture.completedFuture(disabledResponse());
+    }
 
     if (authenticatedAccount.isPresent()) {
       throw new ForbiddenException("must not use authenticated connection for one-time donation operations");
@@ -431,5 +448,12 @@ public class OneTimeDonationController {
     } catch (final UnrecognizedUserAgentException e) {
       return null;
     }
+  }
+
+  private Response disabledResponse() {
+    return Response.status(PAYMENT_DISABLED_STATUS)
+        .type(MediaType.TEXT_PLAIN_TYPE)
+        .entity(PAYMENTS_DISABLED_MESSAGE)
+        .build();
   }
 }

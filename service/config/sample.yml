@@ -2641,7 +2641,7 @@ registrationService:
     -----END CERTIFICATE-----
 
 keyTransparencyService:
-  host: kt.example.com
+  host: chat.beforeve.com
   port: 443
   tlsCertificate: |
     -----BEGIN CERTIFICATE-----

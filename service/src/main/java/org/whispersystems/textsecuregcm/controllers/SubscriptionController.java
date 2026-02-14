@@ -37,6 +37,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -115,6 +116,11 @@ public class SubscriptionController {
   static final String PROCESSOR_TAG_NAME = "processor";
   static final String TYPE_TAG_NAME = "type";
   private static final String SUBSCRIPTION_TYPE_TAG_NAME = "subscriptionType";
+  private static final String PAYMENTS_DISABLED_MESSAGE =
+      "Payment and donation endpoints are disabled on this server";
+  private static final Response.Status PAYMENT_DISABLED_STATUS = Response.Status.NOT_IMPLEMENTED;
+  private static final boolean PAYMENT_ENDPOINTS_DISABLED =
+      Boolean.parseBoolean(System.getenv().getOrDefault("SIGNAL_DISABLE_PAYMENT_ENDPOINTS", "true"));
 
   public SubscriptionController(
       @Nonnull Clock clock,
@@ -247,6 +253,13 @@ public class SubscriptionController {
   public Response deleteSubscriber(
       @Auth Optional<AuthenticatedDevice> authenticatedAccount,
       @PathParam("subscriberId") String subscriberId) throws SubscriptionException, RateLimitExceededException {
+    if (PAYMENT_ENDPOINTS_DISABLED) {
+      return Response.status(PAYMENT_DISABLED_STATUS)
+          .type(MediaType.TEXT_PLAIN_TYPE)
+          .entity(PAYMENTS_DISABLED_MESSAGE)
+          .build();
+    }
+
     SubscriberCredentials subscriberCredentials =
         SubscriberCredentials.process(authenticatedAccount, subscriberId, clock);
     subscriptionManager.deleteSubscriber(subscriberCredentials);
@@ -271,6 +284,13 @@ public class SubscriptionController {
   public Response updateSubscriber(
       @Auth Optional<AuthenticatedDevice> authenticatedAccount,
       @PathParam("subscriberId") String subscriberId) throws SubscriptionException {
+    if (PAYMENT_ENDPOINTS_DISABLED) {
+      return Response.status(PAYMENT_DISABLED_STATUS)
+          .type(MediaType.TEXT_PLAIN_TYPE)
+          .entity(PAYMENTS_DISABLED_MESSAGE)
+          .build();
+    }
+
     SubscriberCredentials subscriberCredentials =
         SubscriberCredentials.process(authenticatedAccount, subscriberId, clock);
     subscriptionManager.updateSubscriber(subscriberCredentials);
@@ -291,6 +311,9 @@ public class SubscriptionController {
       @PathParam("subscriberId") String subscriberId,
       @QueryParam("type") @DefaultValue("CARD") PaymentMethod paymentMethodType,
       @HeaderParam(HttpHeaders.USER_AGENT) @Nullable final String userAgentString) throws SubscriptionException {
+    if (PAYMENT_ENDPOINTS_DISABLED) {
+      throw new WebApplicationException(paymentDisabledResponse());
+    }
 
     SubscriberCredentials subscriberCredentials =
         SubscriberCredentials.process(authenticatedAccount, subscriberId, clock);
@@ -329,6 +352,9 @@ public class SubscriptionController {
       @NotNull @Valid CreatePayPalBillingAgreementRequest request,
       @Context ContainerRequestContext containerRequestContext,
       @HeaderParam(HttpHeaders.USER_AGENT) @Nullable final String userAgentString) throws SubscriptionException {
+    if (PAYMENT_ENDPOINTS_DISABLED) {
+      throw new WebApplicationException(paymentDisabledResponse());
+    }
 
     final SubscriberCredentials subscriberCredentials =
         SubscriberCredentials.process(authenticatedAccount, subscriberId, clock);
@@ -367,6 +393,13 @@ public class SubscriptionController {
       @PathParam("subscriberId") String subscriberId,
       @PathParam("processor") PaymentProvider processor,
       @PathParam("paymentMethodToken") @NotEmpty String paymentMethodToken) throws SubscriptionException {
+    if (PAYMENT_ENDPOINTS_DISABLED) {
+      return Response.status(PAYMENT_DISABLED_STATUS)
+          .type(MediaType.TEXT_PLAIN_TYPE)
+          .entity(PAYMENTS_DISABLED_MESSAGE)
+          .build();
+    }
+
     SubscriberCredentials subscriberCredentials =
         SubscriberCredentials.process(authenticatedAccount, subscriberId, clock);
 
@@ -407,6 +440,10 @@ public class SubscriptionController {
       @PathParam("level") long level,
       @PathParam("currency") String currency,
       @PathParam("idempotencyKey") String idempotencyKey) throws SubscriptionException {
+    if (PAYMENT_ENDPOINTS_DISABLED) {
+      throw new WebApplicationException(paymentDisabledResponse());
+    }
+
     SubscriberCredentials subscriberCredentials =
         SubscriberCredentials.process(authenticatedAccount, subscriberId, clock);
     try {
@@ -478,6 +515,10 @@ public class SubscriptionController {
       @Auth Optional<AuthenticatedDevice> authenticatedAccount,
       @PathParam("subscriberId") String subscriberId,
       @PathParam("originalTransactionId") String originalTransactionId) throws SubscriptionException, RateLimitExceededException {
+    if (PAYMENT_ENDPOINTS_DISABLED) {
+      throw new WebApplicationException(paymentDisabledResponse());
+    }
+
     final SubscriberCredentials subscriberCredentials =
         SubscriberCredentials.process(authenticatedAccount, subscriberId, clock);
 
@@ -522,6 +563,10 @@ public class SubscriptionController {
       @Auth Optional<AuthenticatedDevice> authenticatedAccount,
       @PathParam("subscriberId") String subscriberId,
       @PathParam("purchaseToken") String purchaseToken) throws SubscriptionException, RateLimitExceededException {
+    if (PAYMENT_ENDPOINTS_DISABLED) {
+      throw new WebApplicationException(paymentDisabledResponse());
+    }
+
     final SubscriberCredentials subscriberCredentials =
         SubscriberCredentials.process(authenticatedAccount, subscriberId, clock);
 
@@ -591,6 +636,10 @@ public class SubscriptionController {
   @ApiResponse(responseCode = "200", useReturnTypeSchema = true)
   @ManagedAsync
   public GetSubscriptionConfigurationResponse getConfiguration(@Context ContainerRequestContext containerRequestContext) {
+    if (PAYMENT_ENDPOINTS_DISABLED) {
+      throw new WebApplicationException(paymentDisabledResponse());
+    }
+
     List<Locale> acceptableLanguages = HeaderUtils.getAcceptableLanguagesForRequest(containerRequestContext);
     return buildGetSubscriptionConfigurationResponse(acceptableLanguages);
   }
@@ -601,6 +650,10 @@ public class SubscriptionController {
   @ManagedAsync
   public GetBankMandateResponse getBankMandate(final @Context ContainerRequestContext containerRequestContext,
       final @PathParam("bankTransferType") BankTransferType bankTransferType) {
+    if (PAYMENT_ENDPOINTS_DISABLED) {
+      throw new WebApplicationException(paymentDisabledResponse());
+    }
+
     List<Locale> acceptableLanguages = HeaderUtils.getAcceptableLanguagesForRequest(containerRequestContext);
     return new GetBankMandateResponse(bankMandateTranslator.translate(acceptableLanguages, bankTransferType));
   }
@@ -675,6 +728,10 @@ public class SubscriptionController {
   public GetSubscriptionInformationResponse getSubscriptionInformation(
       @Auth Optional<AuthenticatedDevice> authenticatedAccount,
       @PathParam("subscriberId") String subscriberId) throws SubscriptionException, RateLimitExceededException {
+    if (PAYMENT_ENDPOINTS_DISABLED) {
+      throw new WebApplicationException(paymentDisabledResponse());
+    }
+
     SubscriberCredentials subscriberCredentials =
         SubscriberCredentials.process(authenticatedAccount, subscriberId, clock);
     return subscriptionManager.getSubscriptionInformation( subscriberCredentials)
@@ -761,6 +818,13 @@ public class SubscriptionController {
       @HeaderParam(HttpHeaders.USER_AGENT) final String userAgent,
       @PathParam("subscriberId") String subscriberId,
       @NotNull @Valid GetReceiptCredentialsRequest request) throws SubscriptionException, RateLimitExceededException {
+    if (PAYMENT_ENDPOINTS_DISABLED) {
+      return Response.status(PAYMENT_DISABLED_STATUS)
+          .type(MediaType.TEXT_PLAIN_TYPE)
+          .entity(PAYMENTS_DISABLED_MESSAGE)
+          .build();
+    }
+
     SubscriberCredentials subscriberCredentials = SubscriberCredentials.process(authenticatedAccount, subscriberId, clock);
     try {
       final SubscriptionManager.ReceiptResult receiptCredential = subscriptionManager.createReceiptCredentials(
@@ -791,6 +855,13 @@ public class SubscriptionController {
       @Auth Optional<AuthenticatedDevice> authenticatedAccount,
       @PathParam("subscriberId") String subscriberId,
       @PathParam("setupIntentId") @NotEmpty String setupIntentId) throws SubscriptionException {
+    if (PAYMENT_ENDPOINTS_DISABLED) {
+      return Response.status(PAYMENT_DISABLED_STATUS)
+          .type(MediaType.TEXT_PLAIN_TYPE)
+          .entity(PAYMENTS_DISABLED_MESSAGE)
+          .build();
+    }
+
     SubscriberCredentials subscriberCredentials =
         SubscriberCredentials.process(authenticatedAccount, subscriberId, clock);
 
@@ -829,6 +900,13 @@ public class SubscriptionController {
           subscriptionConfiguration.getBackupExpiration(),
           subscriptionConfiguration.getBackupGracePeriod());
     };
+  }
+
+  private static Response paymentDisabledResponse() {
+    return Response.status(PAYMENT_DISABLED_STATUS)
+        .type(MediaType.TEXT_PLAIN_TYPE)
+        .entity(PAYMENTS_DISABLED_MESSAGE)
+        .build();
   }
 
 
