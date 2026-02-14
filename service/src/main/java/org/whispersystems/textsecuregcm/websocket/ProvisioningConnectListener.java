@@ -14,6 +14,8 @@ import java.util.Optional;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.whispersystems.textsecuregcm.auth.AuthenticatedDevice;
 import org.whispersystems.textsecuregcm.controllers.ProvisioningController;
 import org.whispersystems.textsecuregcm.entities.MessageProtos;
@@ -41,6 +43,7 @@ import org.whispersystems.websocket.setup.WebSocketConnectListener;
  * WebSocket, then closes the WebSocket connection.
  */
 public class ProvisioningConnectListener implements WebSocketConnectListener {
+  private static final Logger logger = LoggerFactory.getLogger(ProvisioningConnectListener.class);
 
   private final ProvisioningManager provisioningManager;
   private final OpenWebSocketCounter openWebSocketCounter;
@@ -66,8 +69,10 @@ public class ProvisioningConnectListener implements WebSocketConnectListener {
             context.getClient().close(1000, "Timeout"), timeout.toSeconds(), TimeUnit.SECONDS);
 
     final String provisioningAddress = generateProvisioningAddress();
+    logger.info("Opening provisioning websocket listener for address {}", provisioningAddress);
 
     context.addWebsocketClosedListener((context1, statusCode, reason) -> {
+      logger.info("Provisioning websocket closed for address {} status={} reason={}", provisioningAddress, statusCode, reason);
       provisioningManager.removeListener(provisioningAddress);
       timeoutFuture.cancel(false);
     });

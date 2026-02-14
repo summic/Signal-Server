@@ -64,14 +64,18 @@ public class ProvisioningManager extends RedisPubSubAdapter<byte[], byte[]> impl
 
   public void addListener(final String address, final Consumer<PubSubProtos.PubSubMessage> listener) {
     listenersByProvisioningAddress.put(address, listener);
+    logger.debug("Adding provisioning listener for address {}", address);
     pubSubConnection.usePubSubConnection(connection -> connection.sync().subscribe(address.getBytes(StandardCharsets.UTF_8)));
+    logger.debug("Provisioning listener count after add: {}", listenersByProvisioningAddress.size());
   }
 
   public void removeListener(final String address) {
+    logger.debug("Removing provisioning listener for address {}", address);
     RedisOperation.unchecked(() ->
         pubSubConnection.usePubSubConnection(connection -> connection.sync().unsubscribe(address.getBytes(StandardCharsets.UTF_8))));
 
     listenersByProvisioningAddress.remove(address);
+    logger.debug("Provisioning listener count after remove: {}", listenersByProvisioningAddress.size());
   }
 
   public boolean sendProvisioningMessage(final String address, final byte[] body) {
@@ -85,6 +89,10 @@ public class ProvisioningManager extends RedisPubSubAdapter<byte[], byte[]> impl
             connection.sync().publish(address.getBytes(StandardCharsets.UTF_8), pubSubMessage.toByteArray()) > 0));
 
     Metrics.counter(SEND_PROVISIONING_MESSAGE_COUNTER_NAME, "online", String.valueOf(receiverPresent)).increment();
+    if (!receiverPresent) {
+      logger.warn("No active provisioning listener for address {}. Active listeners: {}", address,
+          listenersByProvisioningAddress.size());
+    }
 
     return receiverPresent;
   }

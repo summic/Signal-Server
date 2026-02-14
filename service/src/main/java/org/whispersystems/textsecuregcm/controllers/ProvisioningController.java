@@ -29,6 +29,8 @@ import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.whispersystems.textsecuregcm.auth.AuthenticatedDevice;
 import org.whispersystems.textsecuregcm.entities.ProvisioningMessage;
 import org.whispersystems.textsecuregcm.limits.RateLimiters;
@@ -48,6 +50,7 @@ import org.whispersystems.textsecuregcm.push.ProvisioningManager;
 @Path("/v1/provisioning")
 @Tag(name = "Provisioning")
 public class ProvisioningController {
+  private static final Logger logger = LoggerFactory.getLogger(ProvisioningController.class);
 
   private final RateLimiters rateLimiters;
   private final ProvisioningManager provisioningManager;
@@ -98,6 +101,7 @@ public class ProvisioningController {
         provisioningManager.sendProvisioningMessage(provisioningAddress, Base64.getMimeDecoder().decode(message.body()));
 
     if (!subscriberPresent) {
+      logger.warn("provisioning message not delivered; no subscriber for {}", provisioningAddress);
       throw new WebApplicationException(Response.Status.NOT_FOUND);
     }
   }
