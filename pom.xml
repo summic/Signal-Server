@@ -7,6 +7,14 @@
 
   <repositories>
     <repository>
+      <id>shared-libsignal-local</id>
+      <name>Shared libsignal local repository</name>
+      <url>file:${project.basedir}/../../shared/libsignal/maven-repo</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    <repository>
       <id>central</id>
       <name>Central Repository</name>
       <url>https://repo.maven.apache.org/maven2</url>
@@ -71,6 +79,7 @@
     <logback.version>1.5.25</logback.version>
     <logback-access-common.version>2.0.6</logback-access-common.version>
     <lettuce.version>6.8.1.RELEASE</lettuce.version>
+    <libsignal-server.version>0.86.6</libsignal-server.version>
     <libphonenumber.version>9.0.13</libphonenumber.version>
     <logstash.logback.version>8.1</logstash.logback.version>
     <log4j-bom.version>2.25.3</log4j-bom.version>
@@ -299,7 +308,7 @@
       <dependency>
         <groupId>org.signal</groupId>
         <artifactId>libsignal-server</artifactId>
-        <version>0.86.6</version>
+        <version>${libsignal-server.version}</version>
       </dependency>
       <dependency>
         <groupId>org.signal</groupId>

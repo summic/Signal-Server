@@ -519,7 +519,7 @@ public class AccountsManager extends RedisPubSubAdapter<String, String> implemen
             }
 
             ResilienceUtil.getGeneralRedisRetry(RETRY_NAME)
-                .executeCompletionStage(retryExecutor, () -> pubSubRedisClient.withConnection(connection ->
+                .executeCompletionStage(retryExecutor, () -> cacheCluster.withCluster(connection ->
                     connection.async().set(key, deviceInfoJson, SetArgs.Builder.ex(RECENTLY_ADDED_DEVICE_TTL))))
                 .whenComplete((_, pubSubThrowable) -> {
                   if (pubSubThrowable != null) {
@@ -1565,7 +1565,7 @@ public class AccountsManager extends RedisPubSubAdapter<String, String> implemen
       final String key = getRegistrationIdTransferArchiveKey(account.getIdentifier(IdentityType.ACI), destinationDeviceId, registrationId);
 
       return ResilienceUtil.getGeneralRedisRetry(RETRY_NAME)
-          .executeCompletionStage(retryExecutor, () -> pubSubRedisClient.withConnection(connection -> connection.async()
+          .executeCompletionStage(retryExecutor, () -> cacheCluster.withCluster(connection -> connection.async()
                   .set(key, transferArchiveJson, SetArgs.Builder.ex(RECENTLY_ADDED_TRANSFER_ARCHIVE_TTL)))
               .toCompletableFuture())
           .thenRun(Util.NOOP)
@@ -1616,7 +1616,7 @@ public class AccountsManager extends RedisPubSubAdapter<String, String> implemen
     }
 
     return ResilienceUtil.getGeneralRedisRetry(RETRY_NAME)
-        .executeCompletionStage(retryExecutor, () -> pubSubRedisClient.withConnection(connection ->
+        .executeCompletionStage(retryExecutor, () -> cacheCluster.withCluster(connection ->
                 connection.async().set(key, requestJson, SetArgs.Builder.ex(RESTORE_ACCOUNT_REQUEST_TTL)))
             .toCompletableFuture())
         .thenRun(Util.NOOP)
@@ -1657,7 +1657,7 @@ public class AccountsManager extends RedisPubSubAdapter<String, String> implemen
 
     // The Redis key we're waiting for may have been added before the caller issued a request to watch for it; check to
     // see if it's already there
-    pubSubRedisClient.withConnection(connection -> connection.async().get(redisKey))
+    cacheCluster.withCluster(connection -> connection.async().get(redisKey))
         .thenAccept(response -> {
           if (StringUtils.isNotBlank(response)) {
             handler.accept(future, response);
@@ -1674,7 +1674,7 @@ public class AccountsManager extends RedisPubSubAdapter<String, String> implemen
       final String tokenIdentifier = channel.substring(LINKED_DEVICE_KEYSPACE_PATTERN.length() - 1);
 
       Optional.ofNullable(waitForDeviceFuturesByTokenIdentifier.remove(tokenIdentifier))
-          .ifPresent(future -> pubSubRedisClient.withConnection(connection -> connection.async().get(getLinkedDeviceKey(tokenIdentifier)))
+          .ifPresent(future -> cacheCluster.withCluster(connection -> connection.async().get(getLinkedDeviceKey(tokenIdentifier)))
               .whenComplete((deviceInfoJson, throwable) -> {
                 if (throwable != null) {
                   future.completeExceptionally(throwable);
@@ -1711,7 +1711,7 @@ public class AccountsManager extends RedisPubSubAdapter<String, String> implemen
         transferArchiveKey = getRegistrationIdTransferArchiveKey(accountIdentifier, deviceId, registrationId);
 
         Optional.ofNullable(waitForTransferArchiveFuturesByDeviceIdentifier.remove(deviceIdentifier))
-            .ifPresent(future -> pubSubRedisClient.withConnection(connection -> connection.async().get(transferArchiveKey))
+            .ifPresent(future -> cacheCluster.withCluster(connection -> connection.async().get(transferArchiveKey))
                 .whenComplete((transferArchiveJson, throwable) -> {
                   if (throwable != null) {
                     future.completeExceptionally(throwable);
@@ -1727,7 +1727,7 @@ public class AccountsManager extends RedisPubSubAdapter<String, String> implemen
       final String token = channel.substring(RESTORE_ACCOUNT_REQUEST_KEYSPACE_PATTERN.length() - 1);
 
       Optional.ofNullable(waitForRestoreAccountRequestFuturesByToken.remove(token))
-          .ifPresent(future -> pubSubRedisClient.withConnection(connection -> connection.async().get(
+          .ifPresent(future -> cacheCluster.withCluster(connection -> connection.async().get(
                   getRestoreAccountRequestKey(token)))
               .whenComplete((requestJson, throwable) -> {
                 if (throwable != null) {

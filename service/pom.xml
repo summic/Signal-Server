@@ -837,6 +837,33 @@
       </plugin>
 
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>3.6.2</version>
+        <executions>
+          <execution>
+            <id>enforce-local-libsignal-server</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireFilesExist>
+                  <message>libsignal-server must be provided from shared/libsignal local repo. Publish it to shared/libsignal/maven-repo first.</message>
+                  <files>
+                    <file>${project.basedir}/../../../shared/libsignal/maven-repo/org/signal/libsignal-server/${libsignal-server.version}/libsignal-server-${libsignal-server.version}.pom</file>
+                    <file>${project.basedir}/../../../shared/libsignal/maven-repo/org/signal/libsignal-server/${libsignal-server.version}/libsignal-server-${libsignal-server.version}.jar</file>
+                  </files>
+                </requireFilesExist>
+              </rules>
+              <fail>true</fail>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
         <groupId>com.github.aoudiamoncef</groupId>
         <artifactId>apollo-client-maven-plugin</artifactId>
         <version>5.0.0</version>

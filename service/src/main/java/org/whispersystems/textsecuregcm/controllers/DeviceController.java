@@ -36,6 +36,8 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
@@ -92,6 +94,7 @@ import org.whispersystems.textsecuregcm.util.ua.UserAgentUtil;
 @Path("/v1/devices")
 @Tag(name = "Devices")
 public class DeviceController {
+  private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(DeviceController.class);
 
   static final int MAX_DEVICES = 6;
 
@@ -252,6 +255,10 @@ public class DeviceController {
       @HeaderParam(HttpHeaders.USER_AGENT) @Nullable String userAgent,
       @NotNull @Valid LinkDeviceRequest linkDeviceRequest)
       throws RateLimitExceededException, DeviceLimitExceededException {
+    logger.warn("linkDevice auth header fingerprint: username={}, deviceId={}, passwordFp={}",
+        authorizationHeader.getUsername(),
+        authorizationHeader.getDeviceId(),
+        fingerprint(authorizationHeader.getPassword()));
 
     final Account account = accounts.checkDeviceLinkingToken(linkDeviceRequest.verificationCode())
         .flatMap(accounts::getByAccountIdentifier)
@@ -402,6 +409,23 @@ public class DeviceController {
       return linkedDeviceListenersByPlatform.get(UserAgentUtil.parseUserAgentString(userAgent).platform());
     } catch (final UnrecognizedUserAgentException ignored) {
       return linkedDeviceListenersForUnrecognizedPlatforms;
+    }
+  }
+
+  private static String fingerprint(final String value) {
+    if (value == null) {
+      return "null";
+    }
+    try {
+      final byte[] hash = MessageDigest.getInstance("SHA-256")
+          .digest(value.getBytes(StandardCharsets.UTF_8));
+      final StringBuilder sb = new StringBuilder(16);
+      for (int i = 0; i < 8 && i < hash.length; i++) {
+        sb.append(String.format("%02x", hash[i]));
+      }
+      return sb.toString();
+    } catch (Exception e) {
+      return "fingerprint-error";
     }
   }
 

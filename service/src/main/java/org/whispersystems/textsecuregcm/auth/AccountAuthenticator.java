@@ -13,6 +13,8 @@ import io.dropwizard.auth.basic.BasicCredentials;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.Metrics;
 import io.micrometer.core.instrument.Tags;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
@@ -26,8 +28,11 @@ import org.whispersystems.textsecuregcm.storage.AccountsManager;
 import org.whispersystems.textsecuregcm.storage.Device;
 import org.whispersystems.textsecuregcm.util.Pair;
 import org.whispersystems.textsecuregcm.util.Util;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AccountAuthenticator implements Authenticator<BasicCredentials, AuthenticatedDevice> {
+  private static final Logger logger = LoggerFactory.getLogger(AccountAuthenticator.class);
 
   private static final String AUTHENTICATION_COUNTER_NAME = name(AccountAuthenticator.class, "authentication");
   private static final String AUTHENTICATION_SUCCEEDED_TAG_NAME = "succeeded";
@@ -86,11 +91,18 @@ public class AccountAuthenticator implements Authenticator<BasicCredentials, Aut
         accountUuid = UUID.fromString(identifierAndDeviceId.first());
         deviceId = identifierAndDeviceId.second();
       }
+      logger.warn("authenticate attempt: username={}, parsedUuid={}, deviceId={}, passwordFp={}",
+          basicCredentials.getUsername(),
+          accountUuid,
+          deviceId,
+          fingerprint(basicCredentials.getPassword()));
 
       Optional<Account> account = accountsManager.getByAccountIdentifier(accountUuid);
 
       if (account.isEmpty()) {
         failureReason = "noSuchAccount";
+        logger.warn("authenticate failed: reason={}, accountUuid={}, deviceId={}",
+            failureReason, accountUuid, deviceId);
         return Optional.empty();
       }
 
@@ -98,6 +110,8 @@ public class AccountAuthenticator implements Authenticator<BasicCredentials, Aut
 
       if (device.isEmpty()) {
         failureReason = "noSuchDevice";
+        logger.warn("authenticate failed: reason={}, accountUuid={}, deviceId={}",
+            failureReason, accountUuid, deviceId);
         return Optional.empty();
       }
 
@@ -117,10 +131,13 @@ public class AccountAuthenticator implements Authenticator<BasicCredentials, Aut
             Instant.ofEpochMilli(authenticatedAccount.getPrimaryDevice().getLastSeen())));
       } else {
         failureReason = "incorrectPassword";
+        logger.warn("authenticate failed: reason={}, accountUuid={}, deviceId={}, passwordFp={}",
+            failureReason, accountUuid, deviceId, fingerprint(basicCredentials.getPassword()));
         return Optional.empty();
       }
     } catch (IllegalArgumentException | InvalidAuthorizationHeaderException iae) {
       failureReason = "invalidHeader";
+      logger.warn("authenticate failed: reason={}, username={}", failureReason, basicCredentials.getUsername(), iae);
       return Optional.empty();
     } finally {
       Tags tags = Tags.of(
@@ -157,5 +174,22 @@ public class AccountAuthenticator implements Authenticator<BasicCredentials, Aut
     }
 
     return account;
+  }
+
+  private static String fingerprint(final String value) {
+    if (value == null) {
+      return "null";
+    }
+    try {
+      final byte[] hash = MessageDigest.getInstance("SHA-256")
+          .digest(value.getBytes(StandardCharsets.UTF_8));
+      final StringBuilder sb = new StringBuilder(16);
+      for (int i = 0; i < 8 && i < hash.length; i++) {
+        sb.append(String.format("%02x", hash[i]));
+      }
+      return sb.toString();
+    } catch (Exception e) {
+      return "fingerprint-error";
+    }
   }
 }
